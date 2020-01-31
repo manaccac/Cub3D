@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/30 08:29:10 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/31 09:32:04 by manaccac    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/31 12:10:08 by manaccac    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,6 +20,23 @@
 #include "../minilibx_opengl_20191021/mlx.h"
 #include <stdlib.h>
 #include <stdio.h>
+
+typedef struct s_img
+{
+	int bpp;
+	int endian;
+	int sizeline;
+	unsigned int img_color;
+	char *data;
+}	t_img;
+
+typedef struct s_color
+{
+	unsigned char r;
+	unsigned char g;
+	unsigned char b;
+}				t_color;
+
 
 typedef	struct	s_player
 {
@@ -57,8 +74,9 @@ typedef	struct	s_map
 	void *mlx_ptr;
 	void *win_ptr;
 	void *img_ptr;
+	t_img img;
 }				t_map;
 
-void raycasting(t_map map, t_calray calray, t_player player);
+double raycasting(t_player player, int x);
 
 #endif
