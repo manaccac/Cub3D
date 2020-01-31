@@ -6,39 +6,40 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/30 08:38:04 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/30 10:41:24 by manaccac    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/31 09:32:10 by manaccac    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../includes/cube.h"
 
-int		ft_close(t_map *map)
+int worldMap[24][24]=
 {
-	mlx_clear_window(map->mlx_ptr, map->win_ptr);
-	mlx_destroy_window(map->mlx_ptr, map->win_ptr);
-	exit (EXIT_SUCCESS);
-	return (0);
-}
-int		ft_key(int key, t_map *map)
-{
-	if (key == 53)
-		ft_close(map);
-	return (0);
-}
-
-t_player ft_init_player(void)
-{
-	t_player player;
-
-	player.posY = 12;
-	player.posX = 22;
-	player.dirX = -1;
-	player.dirY = 0;
-	player.planeX = 0;
-	player.planeY = 0.66;
-  return (player);
-}
+  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,1,1,1,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
+  {1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,1},
+  {1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,1,1,0,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,0,4,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,0,4,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+};
 
 int   ft_abs(nb)
 {
@@ -56,16 +57,8 @@ void  ft_verline(int x, t_calray calray, t_map map)
 	}
 }
 
-//void raycasting(t_map map)
-int   main()
+void raycasting(t_map map, t_calray calray, t_player player)
 {
-	t_player player;
-	t_calray calray;
-  t_map map;
-
-	player = ft_init_player();
-  map.mlx_ptr = mlx_init();
-	map.win_ptr = mlx_new_window(map.mlx_ptr, screenWidth, screenHeight, "cub3d" );
 	for(int x = 0; x < screenWidth; x++)
 	{
 		//calculate ray position and direction
@@ -135,7 +128,4 @@ int   main()
 		//draw the pixels of the stripe as a vertical line
 		ft_verline(x, calray, map);
 	}
-	mlx_hook(map.win_ptr, 2, 0, ft_key, &map);
-	mlx_hook(map.win_ptr, 17, 0, ft_close, &map);
-	mlx_loop(map.mlx_ptr);
 }

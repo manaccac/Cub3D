@@ -6,7 +6,7 @@
 #    By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2020/01/30 08:48:57 by manaccac     #+#   ##    ##    #+#        #
-#    Updated: 2020/01/30 08:53:07 by manaccac    ###    #+. /#+    ###.fr      #
+#    Updated: 2020/01/31 09:32:34 by manaccac    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -14,21 +14,21 @@
 # **************************************************************************** #
 #								VARIABLES							           #
 # **************************************************************************** #
-HEAD_PATH	=					.
-HEAD_NAME	=					cub3d.h minilibx_opengl_20191021/mlx.h
-HEADER		=					cube.h
+HEAD_PATH	=					includes
+HEAD_NAME	=					cube.h ../minilibx_opengl_20191021/mlx.h
+HEADER		=					$(addprefix $(HEAD_PATH)/,$(HEAD_NAME))
 MINILIBX	=					libmlx.a
 MINILIBXS	=					minilibx_opengl_20191021/libmlx.a
 LIB			=					libft.a
 LIBS		=					libft/libft.a
-#SRC_PATH	=					.
-SRCS	= 						cube.c raycast.c
+SRC_PATH	=					srcs
+SRCS	= 						cube.c raycasting.c
 OBJS		= 					${SRCS:.c=.o}
 NAME		= 					Cub3D
 RM			= 					rm -f
 FLAGS 		= 					-Wall -Wextra -Werror -g3
 GFLAGS 		=					-lmlx -framework OpenGL -framework AppKit
-#SRCS 		= 					$(addprefix $(SRC_PATH)/,$(SRCS_NAME))
+SRCS 		= 					$(addprefix $(SRC_PATH)/,$(SRCS_NAME))
 # **************************************************************************** #
 #								REGLES								           #
 # **************************************************************************** #
