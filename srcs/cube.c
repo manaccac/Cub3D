@@ -6,12 +6,26 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/31 08:56:54 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/31 11:59:29 by manaccac    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/20 13:02:34 by manaccac    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../includes/cube.h"
+
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	const unsigned char	*src2;
+	unsigned char		*dst2;
+
+	if (!dst && !src)
+		return (NULL);
+	src2 = src;
+	dst2 = dst;
+	while (n-- > 0)
+		*dst2++ = *src2++;
+	return (dst);
+}
 
 t_color ft_color(int r, int g, int b)
 {
@@ -29,65 +43,200 @@ int		ft_close(t_map *map)
 	exit (EXIT_SUCCESS);
 	return (0);
 }
-int		ft_key(int key, t_map *map)
+
+int ft_walkforward(t_map *map)
 {
-	if (key == 53)
-		ft_close(map);
-	return (0);
+	map->player.mouveX += map->player.dirX * 0.15 * map->player.movew;
+	map->player.mouveY += map->player.dirY * 0.15 * map->player.movew;
+	return(0);
 }
 
-t_player ft_init_player(void)
+int ft_walkbackward(t_map *map)
 {
-	t_player player;
-
-	player.posY = 12;
-	player.posX = 22;
-	player.dirX = -1;
-	player.dirY = 0;
-	player.planeX = 0;
-	player.planeY = 0.66;
-  return (player);
+	map->player.mouveX -= map->player.dirX * 0.15 * map->player.moves;
+	map->player.mouveY -= map->player.dirY * 0.15 * map->player.moves;
+	return(0);
 }
 
-void    my_pixel_put_to_image(t_color color, char *data, int sizeline, int bpp, int x, int y)
+int ft_walkleft(t_map *map)
+{
+	map->player.mouveX -= map->player.planeX * 0.15 * map->player.movea;
+	map->player.mouveY -= map->player.planeY * 0.15 * map->player.movea;
+	return(0);
+}
+
+int ft_walkright(t_map *map)
+{
+	map->player.mouveX += map->player.planeX * 0.15 * map->player.moved;
+	map->player.mouveY += map->player.planeY * 0.15 * map->player.moved;
+	return(0);
+}
+
+int	ft_turnright(t_map *map)
+{
+	double pi = 3.14159265359;
+	double speed = 2*pi/90;
+	double oldDirX = map->player.dirX;
+	double oldPlaneX = map->player.planeX;
+	map->player.dirX = map->player.dirX * cos(-speed * map->player.key_e) - map->player.dirY * sin(-speed * map->player.key_e);
+	map->player.dirY = oldDirX * sin(-speed * map->player.key_e) + map->player.dirY * cos(-speed * map->player.key_e);
+	map->player.planeX = map->player.planeX * cos(-speed * map->player.key_e) - map->player.planeY * sin(-speed * map->player.key_e);
+    map->player.planeY = oldPlaneX * sin(-speed * map->player.key_e) + map->player.planeY * cos(-speed * map->player.key_e);
+	return(0);
+}
+
+int	ft_turnleft(t_map *map)
+{
+	double pi = 3.14159265359;
+	double speed = 2*pi/90;
+	double oldDirX = map->player.dirX;
+	double oldPlaneX = map->player.planeX;
+	map->player.dirX = map->player.dirX * cos(speed * map->player.key_q) - map->player.dirY * sin(speed * map->player.key_q);
+    map->player.dirY = oldDirX * sin(speed * map->player.key_q) + map->player.dirY * cos(-speed * map->player.key_q);
+	map->player.planeX = map->player.planeX * cos(speed * map->player.key_q) - map->player.planeY * sin(speed * map->player.key_q);
+    map->player.planeY = oldPlaneX * sin(speed * map->player.key_q) + map->player.planeY * cos(speed * map->player.key_q);
+	return(0);
+}
+
+t_map ft_init_player(void)
+{
+	t_map map;
+
+	map.player.posY = 12;
+	map.player.posX = 22;
+	map.player.dirX = -1;
+	map.player.dirY = 0;
+	map.player.planeX = 0;
+	map.player.planeY = 0.66;
+	map.player.movew = 0;
+	map.player.moved = 0;
+	map.player.moves = 0;
+	map.player.movea = 0;
+	map.player.key_e = 0;
+	map.player.key_q = 0;
+  return (map);
+}
+
+void    ft_put_pixel(t_color color, char *data, int sizeline, int bpp, int x, int y)
 {
   data[y * sizeline + x * bpp / 8 ] = color.r;
   data[y * sizeline + x * bpp / 8 + 1] = color.g;
   data[y * sizeline + x * bpp / 8 + 2] = color.b;
 }
 
+
+
+/*
+**t_clr           gclr(unsigned int color, int a)
+**{
+**    t_clr   clr;
+**    clr.r = (color & 0xFF0000) >> 16;
+**    clr.g = (color & 0x00FF00) >> 8;
+**    clr.b = (color & 0x0000FF);
+**    clr.a = a;
+**    return (clr);
+**}
+**
+** unsigned int color;
+** t_clr clr;
+** ft_memcpy(&color, text.data[x * (text.sizeline / 4) * y] * 4);
+** clr = gclr(color, 0);
+
+** ft_put_pixel(clr, x, y, map);
+
+** map.data[x + y * 64] = clr.r;
+** map.data[x + y * 64 + 1] = clr.g;
+** map.data[x + y * 64 + 2] = clr.b;
+** map.data[x + y * 64 + 3] = clr.a;
+*/
+
+/*
+void    ft_put_pixel_tex(t_map map, char *data, int x, int y)
+{
+  data[y * map.img.sizeline + x * map.img.bpp / 8 ] = map.texture[0].data[64 * y + x];
+  data[y * map.img.sizeline + x * map.img.bpp / 8 + 1] =
+  data[y * map.img.sizeline + x * map.img.bpp / 8 + 2] =
+}
+*/
+
+t_color 	ft_get_color(unsigned int color, int a)
+{
+    t_color   clr;
+    clr.r = (color & 0x0000FF);
+    clr.g = (color & 0x00FF00) >> 8;
+    clr.b = (color & 0xFF0000) >> 16;
+    clr.a = a;
+    return (clr);
+}
+
+t_map		ft_put_tex(t_color clr, int x, int y, t_map map)
+{
+	map.img.data[(x + y * screenWidth) * 4] = clr.r;
+	map.img.data[(x + y * screenWidth) * 4 + 1] = clr.g;
+	map.img.data[(x + y * screenWidth) * 4 + 2] = clr.b;
+	map.img.data[(x + y * screenWidth) * 4 + 3] = clr.a;
+	/*
+	dprintf(1, "r = %u\n", clr.r);
+	dprintf(1, "g = %u\n", clr.g);
+	dprintf(1, "b = %u\n", clr.b);
+	dprintf(1, "a = %u\n", clr.a);
+	*/
+	return (map);
+}
+
 void ft_vertline(int h, int x, t_map map)
 {
 	int y;
+	unsigned int color;
+	t_color clr;
 
 	y = 0;
 	if (h == -1)
 		return;
-	int floorsize = (screenHeight - h) /2;
-	int skysize = floorsize;
+	int floor = (screenHeight - h) /2;
+	int sky = floor;
+	/*
+	if(map.hit_wall_x - (int)map.hit_wall_x  > 0)
+		map.textx = (map.hit_wall_x - (int)map.hit_wall_x) * 64;
+	else
+		map.textx = (map.hit_wall_y - (int)map.hit_wall_y) * 64;
+	*/
+	if(map.wall_dir == 'W' || map.wall_dir == 'E')
+		map.textx = (map.hit_wall_x - (int)map.hit_wall_x) * 64;
+	else if (map.wall_dir == 'N' || map.wall_dir == 'S')
+		map.textx = (map.hit_wall_y - (int)map.hit_wall_y) * 64;
+	//dprintf(1, "x = %d\n", (int)map.textx);
+	//dprintf(1, "dir = %c\n", map.wall_dir);
 	while (y < screenHeight)
 	{
-		if (y < floorsize)
-			my_pixel_put_to_image(ft_color(172, 96, 35), map.img.data, map.img.sizeline, map.img.bpp, x, y);
-		else if(y < (screenHeight - skysize) && y > floorsize)
-			my_pixel_put_to_image(ft_color(58, 136, 189), map.img.data, map.img.sizeline, map.img.bpp, x, y);
+		map.texty = (((double)y - (double)sky)/(double)(screenHeight - sky - floor) * 64);
+		//dprintf(1, "y = %d\n", map.texty);
+		//dprintf(1, "y = %d\n", (int)map.texty);
+		if (y <= floor)
+			ft_put_pixel(ft_color(124, 66, 8), map.img.data, map.img.sizeline, map.img.bpp, x, y);
+		else if(y < (screenHeight - sky) && y > floor)
+		{
+			ft_memcpy(&color, &map.texture[map.wall_text].data[(int)(map.texty) * map.texture[map.wall_text].sizeline + (int)(map.textx) * map.texture[map.wall_text].bpp / 8], sizeof (int));
+			clr = ft_get_color(color, 0);
+			ft_put_tex(clr, x, y, map);
+		}
 		else
-			my_pixel_put_to_image(ft_color(105, 34, 144), map.img.data, map.img.sizeline, map.img.bpp, x, y);
+			ft_put_pixel(ft_color(55, 64, 70), map.img.data, map.img.sizeline, map.img.bpp, x, y);
 		y++;
 	}
 }
 
-int	ft_PrintWall(t_map map, t_player player)
+int	ft_printwall(t_map map)
 {
 	double ray_dist;
 	int h;
 	int x;
-	x = 0 ;
 
+	x = 0;
 	while (x < screenWidth)
     {
 		map.img.img_color = mlx_get_color_value(map.mlx_ptr, 0xffffff);
-		ray_dist = raycasting(player, x);
+		ray_dist = raycasting(map.player, x, &map);
 		h =(int)(screenHeight / ray_dist);
 		ft_vertline(h, x, map);
     	x++;
@@ -96,21 +245,122 @@ int	ft_PrintWall(t_map map, t_player player)
 	return 1;
 }
 
+int		ft_i_walk(t_map *map)
+{
+	mlx_clear_window(map->mlx_ptr, map->win_ptr);
+	map->player.mouveX = 0;
+	map->player.mouveY = 0;
+
+	if (map->player.movew)
+		ft_walkforward(map);
+	if (map->player.moved)
+		ft_walkright(map);
+	if (map->player.moves)
+		ft_walkbackward(map);
+	if (map->player.movea)
+		ft_walkleft(map);
+	if (map->player.key_e)
+		ft_turnright(map);
+	if (map->player.key_q)
+		ft_turnleft(map);
+	map->player.posX = map->player.posX + map->player.mouveX;
+	map->player.posY = map->player.posY + map->player.mouveY;
+	//dprintf(1, "X= %f Y= %f\n", map->player.posX , map->player.posY);
+	ft_printwall(*map);
+	return (0);
+}
+
+int		ft_keyp(int key, t_map *map)
+{
+	if (key == KEY_W)
+		map->player.movew = 1;
+	if (key == KEY_D)
+		map->player.moved = 1;
+	if (key == KEY_S)
+		map->player.moves = 1;
+	if (key == KEY_A)
+		map->player.movea = 1;
+	if (key == KEY_E)
+		map->player.key_e = 1;
+	if (key == KEY_Q)
+		map->player.key_q = 1;
+	if (key == 53)
+		ft_close(map);
+	return (0);
+}
+
+int		ft_keyr(int key, t_map *map)
+{
+	if (key == KEY_W)
+		map->player.movew = 0;
+	if (key == KEY_D)
+		map->player.moved = 0;
+	if (key == KEY_S)
+		map->player.moves = 0;
+	if (key == KEY_A)
+		map->player.movea = 0;
+	if (key == KEY_E)
+		map->player.key_e = 0;
+	if (key == KEY_Q)
+		map->player.key_q = 0;
+	return (0);
+}
+
+/*
+t_map ft_init_texture(t_map *map)
+{
+	int i;
+
+	i = 0;
+	while (i != 4)
+	{
+		map->texture[i].bpp = 0;
+		map->texture[i].sizeline = 0;
+		map->texture[i].endian = 0;
+		i++;
+	}
+	return (*map);
+}
+
+*/
+t_map	ft_texture(t_map map)
+{
+	map.texture[0].image = mlx_xpm_file_to_image(map.mlx_ptr, "textures/colorstone.xpm", &map.texture[0].width, &map.texture[0].height);
+	map.texture[0].data = mlx_get_data_addr(map.texture[0].image, &map.texture[0].bpp, &map.texture[0].sizeline, &map.texture[0].endian);
+	map.texture[1].image = mlx_xpm_file_to_image(map.mlx_ptr, "textures/greystone.xpm", &map.texture[1].width, &map.texture[1].height);
+	map.texture[1].data = mlx_get_data_addr(map.texture[1].image, &map.texture[1].bpp, &map.texture[1].sizeline, &map.texture[1].endian);
+	map.texture[2].image = mlx_xpm_file_to_image(map.mlx_ptr, "textures/mossy_1.xpm", &map.texture[2].width, &map.texture[2].height);
+	map.texture[2].data = mlx_get_data_addr(map.texture[2].image, &map.texture[2].bpp, &map.texture[2].sizeline, &map.texture[2].endian);
+	map.texture[3].image = mlx_xpm_file_to_image(map.mlx_ptr, "textures/redbrick_1.xpm", &map.texture[3].width, &map.texture[3].height);
+	map.texture[3].data = mlx_get_data_addr(map.texture[3].image, &map.texture[3].bpp, &map.texture[3].sizeline, &map.texture[3].endian);
+	return	(map);
+}
+
+
 int	main() //void	cube()
 {
-	t_player player;
 	t_map map;
 
-	player = ft_init_player();
+	map = ft_init_player();
+
  	map.mlx_ptr = mlx_init();
-	map.img_ptr = mlx_new_image(map.mlx_ptr, screenWidth, screenHeight);
-  	map.img.data = mlx_get_data_addr(map.img_ptr, &map.img.bpp, &map.img.sizeline, &map.img.endian);
+	map = ft_texture(map);
+//	map.texture[0].image = mlx_xpm_file_to_image(map.mlx_ptr, "textures/colorstone.xpm", &map.texture[0].width, &map.texture[0].height);
+//	map.texture[0].data = mlx_get_data_addr(map.texture[0].image, &map.texture[0].bpp, &map.texture[0].sizeline, &map.texture[0].endian);
+
 	map.win_ptr = mlx_new_window(map.mlx_ptr, screenWidth, screenHeight, "CUBE");
 
-	ft_PrintWall(map, player);
+	map.img_ptr = mlx_new_image(map.mlx_ptr, screenWidth, screenHeight);
+	map.img.data = mlx_get_data_addr(map.img_ptr, &map.img.bpp, &map.img.sizeline, &map.img.endian);
+	map.win_ptr = mlx_new_window(map.mlx_ptr, screenWidth, screenHeight, "CUBE");
 
-	mlx_hook(map.win_ptr, 2, 0, ft_key, &map);
+	ft_printwall(map);
+
+	mlx_hook(map.win_ptr, 2, 0, ft_keyp, &map);
+	mlx_hook(map.win_ptr, 3, 0, ft_keyr, &map);
 	mlx_hook(map.win_ptr, 17, 0, ft_close, &map);
+	mlx_loop_hook(map.mlx_ptr, ft_i_walk, &map);
 	mlx_loop(map.mlx_ptr);
+
 	return(0);
 }

@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/30 08:38:04 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/31 12:10:02 by manaccac    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/20 11:35:10 by manaccac    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -48,7 +48,26 @@ double ft_abs(double n)
 	return(-n);
 }
 
-double raycasting(t_player player, int x)
+char	ft_wall_dir(t_calray calray)
+{
+	if (calray.side == 1)
+    {
+      if(calray.stepY > 0)
+        return('W');
+      else
+        return('E');
+    }
+    if (calray.side == 0)
+    {
+      if(calray.stepX > 0)
+        return('S');
+      else
+        return('N');
+    }
+  return 0;
+}
+
+double raycasting(t_player player, int x, t_map *map)
 {
 	t_calray calray;
 
@@ -104,6 +123,17 @@ double raycasting(t_player player, int x)
 		calray.perpWallDist = (calray.mapX - player.posX + (1 - calray.stepX) / 2) / calray.rayDirX;
 	else
 		calray.perpWallDist = (calray.mapY - player.posY + (1 - calray.stepY) / 2) / calray.rayDirY;
-	return (calray.perpWallDist);
 
+	map->hit_wall_x = player.posX + calray.rayDirX * calray.perpWallDist;
+	map->hit_wall_y = player.posY + calray.rayDirY * calray.perpWallDist;
+	map->wall_dir = ft_wall_dir(calray);
+	if (map->wall_dir == 'W')
+		map->wall_text = 0;
+	else if (map->wall_dir == 'E')
+		map->wall_text = 1;
+	else if (map->wall_dir == 'N')
+		map->wall_text = 2;
+	else if (map->wall_dir == 'S')
+		map->wall_text = 3;
+	return (calray.perpWallDist);
 }
