@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/31 08:56:54 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/21 08:00:32 by manaccac    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/21 08:02:35 by manaccac    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -180,7 +180,6 @@ int		ft_i_walk(t_map *map)
 		ft_turnleft(map);
 	map->player.posX = map->player.posX + map->player.mouveX;
 	map->player.posY = map->player.posY + map->player.mouveY;
-	//dprintf(1, "X= %f Y= %f\n", map->player.posX , map->player.posY);
 	ft_printwall(*map);
 	return (0);
 }
@@ -221,23 +220,6 @@ int		ft_keyr(int key, t_map *map)
 	return (0);
 }
 
-/*
-t_map ft_init_texture(t_map *map)
-{
-	int i;
-
-	i = 0;
-	while (i != 4)
-	{
-		map->texture[i].bpp = 0;
-		map->texture[i].sizeline = 0;
-		map->texture[i].endian = 0;
-		i++;
-	}
-	return (*map);
-}
-
-*/
 t_map	ft_texture(t_map map)
 {
 	map.texture[0].image = mlx_xpm_file_to_image(map.mlx_ptr, "textures/colorstone.xpm", &map.texture[0].width, &map.texture[0].height);
@@ -260,11 +242,7 @@ int	main() //void	cube()
 
  	map.mlx_ptr = mlx_init();
 	map = ft_texture(map);
-//	map.texture[0].image = mlx_xpm_file_to_image(map.mlx_ptr, "textures/colorstone.xpm", &map.texture[0].width, &map.texture[0].height);
-//	map.texture[0].data = mlx_get_data_addr(map.texture[0].image, &map.texture[0].bpp, &map.texture[0].sizeline, &map.texture[0].endian);
-
 	map.win_ptr = mlx_new_window(map.mlx_ptr, screenWidth, screenHeight, "CUBE");
-
 	map.img_ptr = mlx_new_image(map.mlx_ptr, screenWidth, screenHeight);
 	map.img.data = (int*)mlx_get_data_addr(map.img_ptr, &map.img.bpp, &map.img.sizeline, &map.img.endian);
 	map.win_ptr = mlx_new_window(map.mlx_ptr, screenWidth, screenHeight, "CUBE");
