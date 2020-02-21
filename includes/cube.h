@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/30 08:29:10 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/20 12:57:19 by manaccac    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/21 07:40:12 by manaccac    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -28,7 +28,7 @@ typedef struct s_img
 	int endian;
 	int sizeline;
 	unsigned int img_color;
-	char *data;
+	int *data;
 }	t_img;
 
 typedef struct s_color
@@ -42,7 +42,7 @@ typedef struct s_color
 typedef	struct	s_texture
 {
 	void		*image;
-	char		*data;
+	int			*data;
 	int			bpp;
 	int			sizeline;
 	int			endian;

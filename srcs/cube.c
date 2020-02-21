@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/31 08:56:54 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/20 13:02:34 by manaccac    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/21 08:00:32 by manaccac    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,15 +25,6 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	while (n-- > 0)
 		*dst2++ = *src2++;
 	return (dst);
-}
-
-t_color ft_color(int r, int g, int b)
-{
-	t_color color;
-	color.r = (unsigned char)r;
-	color.g = (unsigned char)g;
-	color.b = (unsigned char)b;
-	return(color);
 }
 
 int		ft_close(t_map *map)
@@ -117,73 +108,6 @@ t_map ft_init_player(void)
   return (map);
 }
 
-void    ft_put_pixel(t_color color, char *data, int sizeline, int bpp, int x, int y)
-{
-  data[y * sizeline + x * bpp / 8 ] = color.r;
-  data[y * sizeline + x * bpp / 8 + 1] = color.g;
-  data[y * sizeline + x * bpp / 8 + 2] = color.b;
-}
-
-
-
-/*
-**t_clr           gclr(unsigned int color, int a)
-**{
-**    t_clr   clr;
-**    clr.r = (color & 0xFF0000) >> 16;
-**    clr.g = (color & 0x00FF00) >> 8;
-**    clr.b = (color & 0x0000FF);
-**    clr.a = a;
-**    return (clr);
-**}
-**
-** unsigned int color;
-** t_clr clr;
-** ft_memcpy(&color, text.data[x * (text.sizeline / 4) * y] * 4);
-** clr = gclr(color, 0);
-
-** ft_put_pixel(clr, x, y, map);
-
-** map.data[x + y * 64] = clr.r;
-** map.data[x + y * 64 + 1] = clr.g;
-** map.data[x + y * 64 + 2] = clr.b;
-** map.data[x + y * 64 + 3] = clr.a;
-*/
-
-/*
-void    ft_put_pixel_tex(t_map map, char *data, int x, int y)
-{
-  data[y * map.img.sizeline + x * map.img.bpp / 8 ] = map.texture[0].data[64 * y + x];
-  data[y * map.img.sizeline + x * map.img.bpp / 8 + 1] =
-  data[y * map.img.sizeline + x * map.img.bpp / 8 + 2] =
-}
-*/
-
-t_color 	ft_get_color(unsigned int color, int a)
-{
-    t_color   clr;
-    clr.r = (color & 0x0000FF);
-    clr.g = (color & 0x00FF00) >> 8;
-    clr.b = (color & 0xFF0000) >> 16;
-    clr.a = a;
-    return (clr);
-}
-
-t_map		ft_put_tex(t_color clr, int x, int y, t_map map)
-{
-	map.img.data[(x + y * screenWidth) * 4] = clr.r;
-	map.img.data[(x + y * screenWidth) * 4 + 1] = clr.g;
-	map.img.data[(x + y * screenWidth) * 4 + 2] = clr.b;
-	map.img.data[(x + y * screenWidth) * 4 + 3] = clr.a;
-	/*
-	dprintf(1, "r = %u\n", clr.r);
-	dprintf(1, "g = %u\n", clr.g);
-	dprintf(1, "b = %u\n", clr.b);
-	dprintf(1, "a = %u\n", clr.a);
-	*/
-	return (map);
-}
-
 void ft_vertline(int h, int x, t_map map)
 {
 	int y;
@@ -195,33 +119,24 @@ void ft_vertline(int h, int x, t_map map)
 		return;
 	int floor = (screenHeight - h) /2;
 	int sky = floor;
-	/*
-	if(map.hit_wall_x - (int)map.hit_wall_x  > 0)
-		map.textx = (map.hit_wall_x - (int)map.hit_wall_x) * 64;
-	else
-		map.textx = (map.hit_wall_y - (int)map.hit_wall_y) * 64;
-	*/
+
 	if(map.wall_dir == 'W' || map.wall_dir == 'E')
 		map.textx = (map.hit_wall_x - (int)map.hit_wall_x) * 64;
 	else if (map.wall_dir == 'N' || map.wall_dir == 'S')
 		map.textx = (map.hit_wall_y - (int)map.hit_wall_y) * 64;
-	//dprintf(1, "x = %d\n", (int)map.textx);
-	//dprintf(1, "dir = %c\n", map.wall_dir);
 	while (y < screenHeight)
 	{
-		map.texty = (((double)y - (double)sky)/(double)(screenHeight - sky - floor) * 64);
-		//dprintf(1, "y = %d\n", map.texty);
-		//dprintf(1, "y = %d\n", (int)map.texty);
 		if (y <= floor)
-			ft_put_pixel(ft_color(124, 66, 8), map.img.data, map.img.sizeline, map.img.bpp, x, y);
+			map.img.data[x + y * screenWidth] = 0x2880BB;
 		else if(y < (screenHeight - sky) && y > floor)
 		{
-			ft_memcpy(&color, &map.texture[map.wall_text].data[(int)(map.texty) * map.texture[map.wall_text].sizeline + (int)(map.textx) * map.texture[map.wall_text].bpp / 8], sizeof (int));
-			clr = ft_get_color(color, 0);
-			ft_put_tex(clr, x, y, map);
+			int i = y * screenWidth + x;
+			map.texty = ((double)y - (double)sky)/(double)(screenHeight  - sky - floor) * 64;
+			int it = (int)(map.texty) * map.texture[map.wall_text].sizeline/4 + (int)(map.textx);
+    		map.img.data[y * screenWidth + x] = map.texture[map.wall_text].data[it];
 		}
 		else
-			ft_put_pixel(ft_color(55, 64, 70), map.img.data, map.img.sizeline, map.img.bpp, x, y);
+			map.img.data[x + y * screenWidth] = 0x655E57;
 		y++;
 	}
 }
@@ -326,13 +241,13 @@ t_map ft_init_texture(t_map *map)
 t_map	ft_texture(t_map map)
 {
 	map.texture[0].image = mlx_xpm_file_to_image(map.mlx_ptr, "textures/colorstone.xpm", &map.texture[0].width, &map.texture[0].height);
-	map.texture[0].data = mlx_get_data_addr(map.texture[0].image, &map.texture[0].bpp, &map.texture[0].sizeline, &map.texture[0].endian);
+	map.texture[0].data = (int*)mlx_get_data_addr(map.texture[0].image, &map.texture[0].bpp, &map.texture[0].sizeline, &map.texture[0].endian);
 	map.texture[1].image = mlx_xpm_file_to_image(map.mlx_ptr, "textures/greystone.xpm", &map.texture[1].width, &map.texture[1].height);
-	map.texture[1].data = mlx_get_data_addr(map.texture[1].image, &map.texture[1].bpp, &map.texture[1].sizeline, &map.texture[1].endian);
+	map.texture[1].data = (int*)mlx_get_data_addr(map.texture[1].image, &map.texture[1].bpp, &map.texture[1].sizeline, &map.texture[1].endian);
 	map.texture[2].image = mlx_xpm_file_to_image(map.mlx_ptr, "textures/mossy_1.xpm", &map.texture[2].width, &map.texture[2].height);
-	map.texture[2].data = mlx_get_data_addr(map.texture[2].image, &map.texture[2].bpp, &map.texture[2].sizeline, &map.texture[2].endian);
+	map.texture[2].data = (int*)mlx_get_data_addr(map.texture[2].image, &map.texture[2].bpp, &map.texture[2].sizeline, &map.texture[2].endian);
 	map.texture[3].image = mlx_xpm_file_to_image(map.mlx_ptr, "textures/redbrick_1.xpm", &map.texture[3].width, &map.texture[3].height);
-	map.texture[3].data = mlx_get_data_addr(map.texture[3].image, &map.texture[3].bpp, &map.texture[3].sizeline, &map.texture[3].endian);
+	map.texture[3].data = (int*)mlx_get_data_addr(map.texture[3].image, &map.texture[3].bpp, &map.texture[3].sizeline, &map.texture[3].endian);
 	return	(map);
 }
 
@@ -351,7 +266,7 @@ int	main() //void	cube()
 	map.win_ptr = mlx_new_window(map.mlx_ptr, screenWidth, screenHeight, "CUBE");
 
 	map.img_ptr = mlx_new_image(map.mlx_ptr, screenWidth, screenHeight);
-	map.img.data = mlx_get_data_addr(map.img_ptr, &map.img.bpp, &map.img.sizeline, &map.img.endian);
+	map.img.data = (int*)mlx_get_data_addr(map.img_ptr, &map.img.bpp, &map.img.sizeline, &map.img.endian);
 	map.win_ptr = mlx_new_window(map.mlx_ptr, screenWidth, screenHeight, "CUBE");
 
 	ft_printwall(map);
