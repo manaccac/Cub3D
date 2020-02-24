@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/30 08:29:10 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/21 08:55:23 by manaccac    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/24 13:48:12 by manaccac    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,6 +37,7 @@ typedef struct s_color
 	int g;
 	int b;
 	int a;
+	int	color;
 }				t_color;
 
 typedef	struct	s_texture
@@ -90,6 +91,53 @@ typedef struct s_calray
 	int drawEnd;
 }	t_calray;
 
+typedef struct		s_text_spr
+{
+	void			*image;
+	int				width;
+	int				height;
+	int				*img_data;
+	int				bpp;
+	int				sizeline;
+	int				endian;
+}					t_text_spr;
+
+typedef struct s_sprcal
+{
+	int		nbspr;
+	double spritex;
+	double spritey;
+	double invdet;
+	double transformx;
+	double transformy;
+	int spritescreenx;
+}	t_sprcal;
+
+typedef	struct	s_vector
+{
+	double	x;
+	double	y;
+}	t_vector;
+
+typedef	struct	s_sprites
+{
+	double	dist;
+	double	posx;
+	double	posy;
+}	t_sprites;
+
+typedef struct	s_draw_start
+{
+	int	x;
+	int	y;
+}	t_draw_start;
+
+typedef struct	s_draw_end
+{
+	int	x;
+	int	y;
+}	t_draw_end;
+
 typedef	struct	s_map
 {
 	void *mlx_ptr;
@@ -107,9 +155,25 @@ typedef	struct	s_map
 	double texty;
 	char	wall_dir;
 	int wall_text;
+	int		nb_sprites;
 	t_texture texture[4];
+	t_vector sprite;
+	t_sprites sprites[50];
+	t_vector transform;
+	double	inv_det;
+	int		sprite_screen_x;
+	int		sprite_height;
+	int		sprite_width;
+	int		stripe;
+	int		tex_x;
+	int		tex_y;
+	t_draw_start draw_start;
+	t_draw_end draw_end;
+	t_text_spr text_spr;
+	double		*zbuffer;
 }				t_map;
 
+void	ft_raycasting_sprite(t_map *map);
 double raycasting(t_player player, int x, t_map *map);
 
 # define KEY_ESCAPE         53

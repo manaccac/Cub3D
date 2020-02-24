@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/31 08:56:54 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/21 08:02:35 by manaccac    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/24 13:55:00 by manaccac    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -105,6 +105,7 @@ t_map ft_init_player(void)
 	map.player.movea = 0;
 	map.player.key_e = 0;
 	map.player.key_q = 0;
+	map.zbuffer = (double *)malloc(sizeof(double) * screenWidth);
   return (map);
 }
 
@@ -136,7 +137,7 @@ void ft_vertline(int h, int x, t_map map)
     		map.img.data[y * screenWidth + x] = map.texture[map.wall_text].data[it];
 		}
 		else
-			map.img.data[x + y * screenWidth] = 0x655E57;
+			map.img.data[x + y * screenWidth] = 0x585551;
 		y++;
 	}
 }
@@ -154,8 +155,10 @@ int	ft_printwall(t_map map)
 		ray_dist = raycasting(map.player, x, &map);
 		h =(int)(screenHeight / ray_dist);
 		ft_vertline(h, x, map);
+		map.zbuffer[x] = ray_dist;
     	x++;
     }
+	ft_raycasting_sprite(&map);
 	mlx_put_image_to_window (map.mlx_ptr, map.win_ptr, map.img_ptr, 0, 0);
 	return 1;
 }
@@ -230,6 +233,8 @@ t_map	ft_texture(t_map map)
 	map.texture[2].data = (int*)mlx_get_data_addr(map.texture[2].image, &map.texture[2].bpp, &map.texture[2].sizeline, &map.texture[2].endian);
 	map.texture[3].image = mlx_xpm_file_to_image(map.mlx_ptr, "textures/redbrick_1.xpm", &map.texture[3].width, &map.texture[3].height);
 	map.texture[3].data = (int*)mlx_get_data_addr(map.texture[3].image, &map.texture[3].bpp, &map.texture[3].sizeline, &map.texture[3].endian);
+	map.text_spr.image = mlx_xpm_file_to_image(map.mlx_ptr, "textures/greenlight.xpm", &map.text_spr.width, &map.text_spr.height);
+	map.text_spr.img_data = (int*)mlx_get_data_addr(map.text_spr.image, &map.text_spr.bpp, &map.text_spr.sizeline, &map.text_spr.endian);
 	return	(map);
 }
 
