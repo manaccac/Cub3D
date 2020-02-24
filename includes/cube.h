@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/30 08:29:10 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/24 13:48:12 by manaccac    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/24 15:09:11 by manaccac    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -51,6 +51,12 @@ typedef	struct	s_texture
 	int 		height;
 
 }				t_texture;
+
+typedef	struct	s_mouvperm
+{
+	int	x;
+	int	y;
+}		t_mouvperm;
 
 typedef	struct	s_player
 {
@@ -171,6 +177,7 @@ typedef	struct	s_map
 	t_draw_end draw_end;
 	t_text_spr text_spr;
 	double		*zbuffer;
+	t_mouvperm mouvperm;
 }				t_map;
 
 void	ft_raycasting_sprite(t_map *map);

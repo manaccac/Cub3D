@@ -6,12 +6,56 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/31 08:56:54 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/24 13:55:00 by manaccac    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/24 15:14:56 by manaccac    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../includes/cube.h"
+
+int worldMap1[24][24]=
+{
+	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,1,1,1,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
+	{1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,1},
+	{1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,1,1,0,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,1,0,4,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,1,0,4,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,1,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+};
+
+t_mouvperm	ft_colision(t_map map)
+{
+	t_mouvperm mouvperm;
+	mouvperm.x = 1;
+	mouvperm.y = 1;
+
+	if (worldMap1[(int)(map.player.mouveX + map.player.posX)][(int)(map.player.mouveY + map.player.posY)])
+	{
+		if (worldMap1[(int)map.player.posX][(int)(map.player.mouveY + map.player.posY)] > 0)
+			mouvperm.y = 0;
+		if (worldMap1[(int)(map.player.mouveX + map.player.posX)][(int)map.player.posY] > 0)
+			mouvperm.x = 0;
+	}
+	return (mouvperm);
+}
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
@@ -98,7 +142,7 @@ t_map ft_init_player(void)
 	map.player.dirX = -1;
 	map.player.dirY = 0;
 	map.player.planeX = 0;
-	map.player.planeY = 0.66;
+	map.player.planeY = 0.80;
 	map.player.movew = 0;
 	map.player.moved = 0;
 	map.player.moves = 0;
@@ -181,8 +225,11 @@ int		ft_i_walk(t_map *map)
 		ft_turnright(map);
 	if (map->player.key_q)
 		ft_turnleft(map);
-	map->player.posX = map->player.posX + map->player.mouveX;
-	map->player.posY = map->player.posY + map->player.mouveY;
+	map->mouvperm = ft_colision(*map);
+	if(map->mouvperm.x)
+		map->player.posX = map->player.posX + map->player.mouveX;
+	if(map->mouvperm.y)
+		map->player.posY = map->player.posY + map->player.mouveY;
 	ft_printwall(*map);
 	return (0);
 }
