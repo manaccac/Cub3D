@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/31 08:56:54 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/24 15:14:56 by manaccac    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/25 11:37:33 by manaccac    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -133,10 +133,10 @@ int	ft_turnleft(t_map *map)
 	return(0);
 }
 
-t_map ft_init_player(void)
+t_map ft_init_player(t_map map)
 {
-	t_map map;
-
+	map.scheight = 1920;
+	map.scwidth = 1080;
 	map.player.posY = 12;
 	map.player.posX = 22;
 	map.player.dirX = -1;
@@ -149,7 +149,7 @@ t_map ft_init_player(void)
 	map.player.movea = 0;
 	map.player.key_e = 0;
 	map.player.key_q = 0;
-	map.zbuffer = (double *)malloc(sizeof(double) * screenWidth);
+	map.zbuffer = (double *)malloc(sizeof(double) * map.scheight);
   return (map);
 }
 
@@ -162,26 +162,25 @@ void ft_vertline(int h, int x, t_map map)
 	y = 0;
 	if (h == -1)
 		return;
-	int floor = (screenHeight - h) /2;
+	int floor = (map.scwidth - h) /2;
 	int sky = floor;
-
 	if(map.wall_dir == 'W' || map.wall_dir == 'E')
 		map.textx = (map.hit_wall_x - (int)map.hit_wall_x) * 64;
 	else if (map.wall_dir == 'N' || map.wall_dir == 'S')
 		map.textx = (map.hit_wall_y - (int)map.hit_wall_y) * 64;
-	while (y < screenHeight)
+	while (y < map.scwidth)
 	{
 		if (y <= floor)
-			map.img.data[x + y * screenWidth] = 0x2880BB;
-		else if(y < (screenHeight - sky) && y > floor)
+			map.img.data[x + y * map.scheight] = 0x2880BB;
+		else if(y < (map.scwidth - sky) && y > floor)
 		{
-			int i = y * screenWidth + x;
-			map.texty = ((double)y - (double)sky)/(double)(screenHeight  - sky - floor) * 64;
+			int i = y * map.scheight + x;
+			map.texty = ((double)y - (double)sky)/(double)(map.scwidth  - sky - floor) * 64;
 			int it = (int)(map.texty) * map.texture[map.wall_text].sizeline/4 + (int)(map.textx);
-    		map.img.data[y * screenWidth + x] = map.texture[map.wall_text].data[it];
+    		map.img.data[y * map.scheight + x] = map.texture[map.wall_text].data[it];
 		}
 		else
-			map.img.data[x + y * screenWidth] = 0x585551;
+			map.img.data[x + y * map.scheight] = 0x585551;
 		y++;
 	}
 }
@@ -193,11 +192,11 @@ int	ft_printwall(t_map map)
 	int x;
 
 	x = 0;
-	while (x < screenWidth)
+	while (x < map.scheight)
     {
 		map.img.img_color = mlx_get_color_value(map.mlx_ptr, 0xffffff);
 		ray_dist = raycasting(map.player, x, &map);
-		h =(int)(screenHeight / ray_dist);
+		h =(int)(map.scwidth / ray_dist);
 		ft_vertline(h, x, map);
 		map.zbuffer[x] = ray_dist;
     	x++;
@@ -272,6 +271,29 @@ int		ft_keyr(int key, t_map *map)
 
 t_map	ft_texture(t_map map)
 {
+	/*
+	dprintf(1, "text1 = %s\n", map.textpath[0]);
+	dprintf(1, "text2 = %s\n", map.textpath[1]);
+	dprintf(1, "text3 = %s\n", map.textpath[2]);
+	dprintf(1, "text4 = %s\n", map.textpath[3]);
+	dprintf(1, "text5 = %s\n", map.textpath[4]);
+
+	map.texture[0].image = mlx_xpm_file_to_image(map.mlx_ptr, map.textpath[0], &map.texture[0].width, &map.texture[0].height);
+	map.texture[0].data = (int*)mlx_get_data_addr(map.texture[0].image, &map.texture[0].bpp, &map.texture[0].sizeline, &map.texture[0].endian);
+	dprintf(1, "slt\n");
+	map.texture[1].image = mlx_xpm_file_to_image(map.mlx_ptr, map.textpath[1], &map.texture[1].width, &map.texture[1].height);
+	map.texture[1].data = (int*)mlx_get_data_addr(map.texture[1].image, &map.texture[1].bpp, &map.texture[1].sizeline, &map.texture[1].endian);
+	dprintf(1, "slt\n");
+	map.texture[2].image = mlx_xpm_file_to_image(map.mlx_ptr, map.textpath[2], &map.texture[2].width, &map.texture[2].height);
+	map.texture[2].data = (int*)mlx_get_data_addr(map.texture[2].image, &map.texture[2].bpp, &map.texture[2].sizeline, &map.texture[2].endian);
+	dprintf(1, "slt\n");
+	map.texture[3].image = mlx_xpm_file_to_image(map.mlx_ptr, map.textpath[3], &map.texture[3].width, &map.texture[3].height);
+	map.texture[3].data = (int*)mlx_get_data_addr(map.texture[3].image, &map.texture[3].bpp, &map.texture[3].sizeline, &map.texture[3].endian);
+	dprintf(1, "slt\n");
+	map.text_spr.image = mlx_xpm_file_to_image(map.mlx_ptr, map.textpath[4], &map.text_spr.width, &map.text_spr.height);
+	map.text_spr.img_data = (int*)mlx_get_data_addr(map.text_spr.image, &map.text_spr.bpp, &map.text_spr.sizeline, &map.text_spr.endian);
+	dprintf(1, "slt\n");
+	*/
 	map.texture[0].image = mlx_xpm_file_to_image(map.mlx_ptr, "textures/colorstone.xpm", &map.texture[0].width, &map.texture[0].height);
 	map.texture[0].data = (int*)mlx_get_data_addr(map.texture[0].image, &map.texture[0].bpp, &map.texture[0].sizeline, &map.texture[0].endian);
 	map.texture[1].image = mlx_xpm_file_to_image(map.mlx_ptr, "textures/greystone.xpm", &map.texture[1].width, &map.texture[1].height);
@@ -285,19 +307,105 @@ t_map	ft_texture(t_map map)
 	return	(map);
 }
 
+char *getid(char *line)
+{
+	int i;
+	char *id;
+	i = 0;
+	if(line[0] == '\n')
+	{
+		id = ft_strdup("");
+		return(id);
+	}
+	while(line[i] != ' ')
+		i++;
+	id = (char *)malloc(sizeof(char) *(i + 1));
+	id[i] = '\0';
+	i = 0;
+	while(line[i] != ' ')
+	{
+		id[i] = line[i];
+		i++;
+	}
+	return(id);
+}
+
+char *getarg(char *line)
+{
+	int i;
+	char *arg;
+	int x;
+	x = 0;
+	i = 0;
+	while(line[x] == ' ')
+		x++;
+	while(line[i + x] != '\0')
+		i++;
+	arg = (char *)malloc(sizeof(char) *(i + 1));
+	arg[i] = '\0';
+	i = 0;
+	while(line[x + i] != '\0')
+	{
+		arg[i] = line[i + x];
+		i++;
+	}
+	return(arg);
+}
+
+t_map	ft_parsing(t_map map)
+{
+	char *line;
+	char *id;
+	int i;
+	 i= 0;
+	char *arg;
+	int fd;
+	map.textpath = (char **)malloc(sizeof(char *) * 5);
+	fd = open("map.cub", O_RDONLY);
+	while(get_next_line( fd, &line) > 0)
+	{
+		id = getid(line);
+		arg = getarg(line + ft_strlen(id));
+		if(ft_strncmp(id, "NO", 2) == 0)
+			map.textpath[0] = ft_strdup(arg);
+		if(ft_strncmp(id, "SO", 2) == 0)
+			map.textpath[1] = ft_strdup(arg);
+		if(ft_strncmp(id, "WE", 2) == 0)
+			map.textpath[2] = ft_strdup(arg);
+		if(ft_strncmp(id, "EA", 2) == 0)
+			map.textpath[3] = ft_strdup(arg);
+		if(ft_strncmp(id, "S", 1) == 0)
+			map.textpath[4] = ft_strdup(arg);
+		if(ft_strncmp(id, "R", 2) == 0)
+		{
+			map.scheight = ft_atoi(arg);
+			map.scwidth = ft_atoi(arg + 1 +ft_strlen(ft_itoa(map.scheight)));
+		}
+		free(arg);
+		free(line);
+		free(id);
+	}
+	return(map);
+}
+
 
 int	main() //void	cube()
 {
 	t_map map;
 
-	map = ft_init_player();
+	map = ft_parsing(map);
+	map = ft_init_player(map);
 
+//	ft_parsing_map(&map);
+//	map = ft_parsing(map);
  	map.mlx_ptr = mlx_init();
 	map = ft_texture(map);
-	map.win_ptr = mlx_new_window(map.mlx_ptr, screenWidth, screenHeight, "CUBE");
-	map.img_ptr = mlx_new_image(map.mlx_ptr, screenWidth, screenHeight);
+	dprintf (1, "height = %d\n", map.scwidth);
+	dprintf (1, "width = %d\n", map.scheight);
+	map.win_ptr = mlx_new_window(map.mlx_ptr, map.scheight, map.scwidth, "CUBE");
+	map.img_ptr = mlx_new_image(map.mlx_ptr, map.scheight, map.scwidth);
 	map.img.data = (int*)mlx_get_data_addr(map.img_ptr, &map.img.bpp, &map.img.sizeline, &map.img.endian);
-	map.win_ptr = mlx_new_window(map.mlx_ptr, screenWidth, screenHeight, "CUBE");
+	map.win_ptr = mlx_new_window(map.mlx_ptr, map.scheight, map.scwidth, "CUBE");
 
 	ft_printwall(map);
 

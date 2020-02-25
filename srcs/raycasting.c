@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/30 08:38:04 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/24 14:49:54 by manaccac    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/25 11:38:50 by manaccac    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -71,7 +71,7 @@ double raycasting(t_player player, int x, t_map *map)
 {
 	t_calray calray;
 
-	player.cameraX = 2 * x / (double)screenWidth - 1;
+	player.cameraX = 2 * x / (double)map->scheight - 1;
 	calray.rayDirX = player.dirX + player.planeX * player.cameraX;
 	calray.rayDirY = player.dirY + player.planeY * player.cameraX;
 	calray.mapX = (int)player.posX;
