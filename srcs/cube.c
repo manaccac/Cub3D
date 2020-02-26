@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/31 08:56:54 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/25 11:37:33 by manaccac    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/26 11:01:16 by manaccac    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -271,29 +271,18 @@ int		ft_keyr(int key, t_map *map)
 
 t_map	ft_texture(t_map map)
 {
-	/*
-	dprintf(1, "text1 = %s\n", map.textpath[0]);
-	dprintf(1, "text2 = %s\n", map.textpath[1]);
-	dprintf(1, "text3 = %s\n", map.textpath[2]);
-	dprintf(1, "text4 = %s\n", map.textpath[3]);
-	dprintf(1, "text5 = %s\n", map.textpath[4]);
-
-	map.texture[0].image = mlx_xpm_file_to_image(map.mlx_ptr, map.textpath[0], &map.texture[0].width, &map.texture[0].height);
+	map.texture[0].image = mlx_xpm_file_to_image(map.mlx_ptr, map.texture[0].textpath, &map.texture[0].width, &map.texture[0].height);
 	map.texture[0].data = (int*)mlx_get_data_addr(map.texture[0].image, &map.texture[0].bpp, &map.texture[0].sizeline, &map.texture[0].endian);
-	dprintf(1, "slt\n");
-	map.texture[1].image = mlx_xpm_file_to_image(map.mlx_ptr, map.textpath[1], &map.texture[1].width, &map.texture[1].height);
+	map.texture[1].image = mlx_xpm_file_to_image(map.mlx_ptr, map.texture[1].textpath, &map.texture[1].width, &map.texture[1].height);
 	map.texture[1].data = (int*)mlx_get_data_addr(map.texture[1].image, &map.texture[1].bpp, &map.texture[1].sizeline, &map.texture[1].endian);
-	dprintf(1, "slt\n");
-	map.texture[2].image = mlx_xpm_file_to_image(map.mlx_ptr, map.textpath[2], &map.texture[2].width, &map.texture[2].height);
+	map.texture[2].image = mlx_xpm_file_to_image(map.mlx_ptr, map.texture[2].textpath, &map.texture[2].width, &map.texture[2].height);
 	map.texture[2].data = (int*)mlx_get_data_addr(map.texture[2].image, &map.texture[2].bpp, &map.texture[2].sizeline, &map.texture[2].endian);
-	dprintf(1, "slt\n");
-	map.texture[3].image = mlx_xpm_file_to_image(map.mlx_ptr, map.textpath[3], &map.texture[3].width, &map.texture[3].height);
+	map.texture[3].image = mlx_xpm_file_to_image(map.mlx_ptr, map.texture[3].textpath, &map.texture[3].width, &map.texture[3].height);
 	map.texture[3].data = (int*)mlx_get_data_addr(map.texture[3].image, &map.texture[3].bpp, &map.texture[3].sizeline, &map.texture[3].endian);
-	dprintf(1, "slt\n");
-	map.text_spr.image = mlx_xpm_file_to_image(map.mlx_ptr, map.textpath[4], &map.text_spr.width, &map.text_spr.height);
+	map.text_spr.image = mlx_xpm_file_to_image(map.mlx_ptr, map.text_spr.textpath, &map.text_spr.width, &map.text_spr.height);
 	map.text_spr.img_data = (int*)mlx_get_data_addr(map.text_spr.image, &map.text_spr.bpp, &map.text_spr.sizeline, &map.text_spr.endian);
-	dprintf(1, "slt\n");
-	*/
+
+/*
 	map.texture[0].image = mlx_xpm_file_to_image(map.mlx_ptr, "textures/colorstone.xpm", &map.texture[0].width, &map.texture[0].height);
 	map.texture[0].data = (int*)mlx_get_data_addr(map.texture[0].image, &map.texture[0].bpp, &map.texture[0].sizeline, &map.texture[0].endian);
 	map.texture[1].image = mlx_xpm_file_to_image(map.mlx_ptr, "textures/greystone.xpm", &map.texture[1].width, &map.texture[1].height);
@@ -304,6 +293,7 @@ t_map	ft_texture(t_map map)
 	map.texture[3].data = (int*)mlx_get_data_addr(map.texture[3].image, &map.texture[3].bpp, &map.texture[3].sizeline, &map.texture[3].endian);
 	map.text_spr.image = mlx_xpm_file_to_image(map.mlx_ptr, "textures/greenlight.xpm", &map.text_spr.width, &map.text_spr.height);
 	map.text_spr.img_data = (int*)mlx_get_data_addr(map.text_spr.image, &map.text_spr.bpp, &map.text_spr.sizeline, &map.text_spr.endian);
+*/
 	return	(map);
 }
 
@@ -360,22 +350,21 @@ t_map	ft_parsing(t_map map)
 	 i= 0;
 	char *arg;
 	int fd;
-	map.textpath = (char **)malloc(sizeof(char *) * 5);
 	fd = open("map.cub", O_RDONLY);
 	while(get_next_line( fd, &line) > 0)
 	{
 		id = getid(line);
 		arg = getarg(line + ft_strlen(id));
 		if(ft_strncmp(id, "NO", 2) == 0)
-			map.textpath[0] = ft_strdup(arg);
+			map.texture[0].textpath = ft_strdup(arg);
 		if(ft_strncmp(id, "SO", 2) == 0)
-			map.textpath[1] = ft_strdup(arg);
+			map.texture[1].textpath = ft_strdup(arg);
 		if(ft_strncmp(id, "WE", 2) == 0)
-			map.textpath[2] = ft_strdup(arg);
+			map.texture[2].textpath = ft_strdup(arg);
 		if(ft_strncmp(id, "EA", 2) == 0)
-			map.textpath[3] = ft_strdup(arg);
+			map.texture[3].textpath = ft_strdup(arg);
 		if(ft_strncmp(id, "S", 1) == 0)
-			map.textpath[4] = ft_strdup(arg);
+			map.text_spr.textpath = ft_strdup(arg);
 		if(ft_strncmp(id, "R", 2) == 0)
 		{
 			map.scheight = ft_atoi(arg);
@@ -400,8 +389,6 @@ int	main() //void	cube()
 //	map = ft_parsing(map);
  	map.mlx_ptr = mlx_init();
 	map = ft_texture(map);
-	dprintf (1, "height = %d\n", map.scwidth);
-	dprintf (1, "width = %d\n", map.scheight);
 	map.win_ptr = mlx_new_window(map.mlx_ptr, map.scheight, map.scwidth, "CUBE");
 	map.img_ptr = mlx_new_image(map.mlx_ptr, map.scheight, map.scwidth);
 	map.img.data = (int*)mlx_get_data_addr(map.img_ptr, &map.img.bpp, &map.img.sizeline, &map.img.endian);

@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/30 08:29:10 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/24 15:09:11 by manaccac    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/25 17:09:32 by manaccac    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -14,13 +14,13 @@
 #ifndef CUBE_H
 # define CUBE_H
 
-# define screenWidth	1920
-# define screenHeight	1080
-
+# include "../libft/libft.h"
 #include "../minilibx_opengl_20191021/mlx.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+# include <unistd.h>
+#include <fcntl.h>
 
 typedef struct s_img
 {
@@ -49,7 +49,7 @@ typedef	struct	s_texture
 	int			endian;
 	int			width;
 	int 		height;
-
+	char		*textpath;
 }				t_texture;
 
 typedef	struct	s_mouvperm
@@ -106,6 +106,7 @@ typedef struct		s_text_spr
 	int				bpp;
 	int				sizeline;
 	int				endian;
+	char			*textpath;
 }					t_text_spr;
 
 typedef struct s_sprcal
@@ -144,6 +145,21 @@ typedef struct	s_draw_end
 	int	y;
 }	t_draw_end;
 
+typedef struct s_pars
+{
+	char	*temp;
+	int		twidth;
+	int		width;
+	int		height;
+	char	*str;
+	int		x;
+	int		y;
+	int		ground_b;
+	int		sky_b;
+	int		perm;
+}				t_pars;
+
+
 typedef	struct	s_map
 {
 	void *mlx_ptr;
@@ -178,8 +194,13 @@ typedef	struct	s_map
 	t_text_spr text_spr;
 	double		*zbuffer;
 	t_mouvperm mouvperm;
+	t_pars		pars;
+	int			**worldmap;
+	int			scwidth;
+	int			scheight;
 }				t_map;
 
+int				ft_parsing_map(t_map *map);
 void	ft_raycasting_sprite(t_map *map);
 double raycasting(t_player player, int x, t_map *map);
 
