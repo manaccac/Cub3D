@@ -1,0 +1,19 @@
+R 1080 1920
+NO textures/colorstone.xpm
+WE textures/mossy_1.xpm
+EA textures/redbrick_1.xpm
+SO textures/greystone.xpm
+S textures/greenlight.xpm
+F 45,153,255
+C 60,60,60
+
+255.16.1
+FF1000
+
+color = 255 << 16
+color += 16 << 8
+color += 1
+
+00000000 11111111 00001000 00000001
+
+00000000 00000000 00000000 00000001;

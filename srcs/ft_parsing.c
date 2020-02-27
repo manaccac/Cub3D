@@ -1,15 +1,15 @@
 /* ************************************************************************** */
-/*                                                          LE - /            */
-/*                                                              /             */
-/*   ft_parsing.c                                     .::    .:/ .      .::   */
-/*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
-/*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2020/02/25 07:54:51 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/25 09:12:25 by manaccac    ###    #+. /#+    ###.fr     */
-/*                                                         /                  */
-/*                                                        /                   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_parsing.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/25 07:54:51 by manaccac          #+#    #+#             */
+/*   Updated: 2020/02/27 11:47:38 by manaccac         ###   ########lyon.fr   */
+/*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../includes/cube.h"
 
@@ -151,7 +151,7 @@ int				ft_parsing_choose(t_map *map, char *line)
 	if (map->pars.width != 0)
 	{
 		choose = 2;
-		map->pars.temp = ft_strdup(map->pars.str);
+		map->pars.str = ft_strdup(map->pars.temp);
 		free(map->pars.str);
 		map->pars.str = ft_strjoin(map->pars.temp, line);
 		map->pars.twidth = ft_strlen(line);
@@ -199,7 +199,7 @@ int				ft_parsing_map_two(t_map *map, int i)
 {
 	if (ft_map_error(map->pars.str, map->pars.width) == 0)
 	{
-		ft_putstr_fd("Error map.", 1);
+		ft_putstr_fd("Error map.\n", 1);
 		return (0);
 	}
 	map->pars.height = ft_strlen(map->pars.str) / map->pars.width;
@@ -236,18 +236,18 @@ int				ft_parsing_map(t_map *map)
 	fd = open("map.txt", O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
-			map->pars.temp = ft_strdup(line);
-			free(line);
-			line = ft_strdup_without_space(map->pars.temp);
-			free(map->pars.temp);
-			choose = ft_parsing_choose(map, line);
-			free(line);
-			if (map->pars.twidth != map->pars.width || line[0] != '1' ||
-				line[ft_strlen(line) - 1] != '1')
-			{
-				ft_putstr_fd("Error map.\n", 1);
-				return (0);
-			}
+		map->pars.temp = ft_strdup(line);
+		free(line);
+		line = ft_strdup_without_space(map->pars.temp);
+		free(map->pars.temp);
+		choose = ft_parsing_choose(map, line);
+		free(line);
+		if (map->pars.twidth != map->pars.width || line[0] != '1' ||
+			line[ft_strlen(line) - 1] != '1')
+		{
+			ft_putstr_fd("Error map.\n", 1);
+			return (0);
+		}
 	}
 	return (ft_parsing_map_two(map, i));
 }

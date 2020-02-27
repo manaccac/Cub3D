@@ -1,15 +1,15 @@
 /* ************************************************************************** */
-/*                                                          LE - /            */
-/*                                                              /             */
-/*   cube.c                                           .::    .:/ .      .::   */
-/*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
-/*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2020/01/31 08:56:54 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/26 11:01:16 by manaccac    ###    #+. /#+    ###.fr     */
-/*                                                         /                  */
-/*                                                        /                   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cube.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/31 08:56:54 by manaccac          #+#    #+#             */
+/*   Updated: 2020/02/27 12:10:06 by manaccac         ###   ########lyon.fr   */
+/*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../includes/cube.h"
 
@@ -135,8 +135,8 @@ int	ft_turnleft(t_map *map)
 
 t_map ft_init_player(t_map map)
 {
-	map.scheight = 1920;
-	map.scwidth = 1080;
+	map.scwidth = 1920;
+	map.scheight = 1080;
 	map.player.posY = 12;
 	map.player.posX = 22;
 	map.player.dirX = -1;
@@ -149,7 +149,7 @@ t_map ft_init_player(t_map map)
 	map.player.movea = 0;
 	map.player.key_e = 0;
 	map.player.key_q = 0;
-	map.zbuffer = (double *)malloc(sizeof(double) * map.scheight);
+	map.zbuffer = (double *)malloc(sizeof(double) * map.scwidth);
   return (map);
 }
 
@@ -162,25 +162,25 @@ void ft_vertline(int h, int x, t_map map)
 	y = 0;
 	if (h == -1)
 		return;
-	int floor = (map.scwidth - h) /2;
+	int floor = (map.scheight - h) /2;
 	int sky = floor;
 	if(map.wall_dir == 'W' || map.wall_dir == 'E')
 		map.textx = (map.hit_wall_x - (int)map.hit_wall_x) * 64;
 	else if (map.wall_dir == 'N' || map.wall_dir == 'S')
 		map.textx = (map.hit_wall_y - (int)map.hit_wall_y) * 64;
-	while (y < map.scwidth)
+	while (y < map.scheight)
 	{
 		if (y <= floor)
-			map.img.data[x + y * map.scheight] = 0x2880BB;
-		else if(y < (map.scwidth - sky) && y > floor)
+			map.img.data[x + y * map.scwidth] = 0x2880BB;
+		else if(y < (map.scheight - sky) && y > floor)
 		{
-			int i = y * map.scheight + x;
-			map.texty = ((double)y - (double)sky)/(double)(map.scwidth  - sky - floor) * 64;
+			int i = y * map.scwidth + x;
+			map.texty = ((double)y - (double)sky)/(double)(map.scheight  - sky - floor) * 64;
 			int it = (int)(map.texty) * map.texture[map.wall_text].sizeline/4 + (int)(map.textx);
-    		map.img.data[y * map.scheight + x] = map.texture[map.wall_text].data[it];
+    		map.img.data[y * map.scwidth + x] = map.texture[map.wall_text].data[it];
 		}
 		else
-			map.img.data[x + y * map.scheight] = 0x585551;
+			map.img.data[x + y * map.scwidth] = 0x585551;
 		y++;
 	}
 }
@@ -192,11 +192,11 @@ int	ft_printwall(t_map map)
 	int x;
 
 	x = 0;
-	while (x < map.scheight)
+	while (x < map.scwidth)
     {
 		map.img.img_color = mlx_get_color_value(map.mlx_ptr, 0xffffff);
 		ray_dist = raycasting(map.player, x, &map);
-		h =(int)(map.scwidth / ray_dist);
+		h =(int)(map.scheight / ray_dist);
 		ft_vertline(h, x, map);
 		map.zbuffer[x] = ray_dist;
     	x++;
@@ -367,8 +367,8 @@ t_map	ft_parsing(t_map map)
 			map.text_spr.textpath = ft_strdup(arg);
 		if(ft_strncmp(id, "R", 2) == 0)
 		{
-			map.scheight = ft_atoi(arg);
-			map.scwidth = ft_atoi(arg + 1 +ft_strlen(ft_itoa(map.scheight)));
+			map.scwidth = ft_atoi(arg);
+			map.scheight = ft_atoi(arg + 1 +ft_strlen(ft_itoa(map.scwidth)));
 		}
 		free(arg);
 		free(line);
@@ -385,14 +385,14 @@ int	main() //void	cube()
 	map = ft_parsing(map);
 	map = ft_init_player(map);
 
-//	ft_parsing_map(&map);
-//	map = ft_parsing(map);
+	ft_parsing_map(&map);
+
  	map.mlx_ptr = mlx_init();
 	map = ft_texture(map);
-	map.win_ptr = mlx_new_window(map.mlx_ptr, map.scheight, map.scwidth, "CUBE");
-	map.img_ptr = mlx_new_image(map.mlx_ptr, map.scheight, map.scwidth);
+	map.win_ptr = mlx_new_window(map.mlx_ptr, map.scwidth, map.scheight, "CUBE");
+	map.img_ptr = mlx_new_image(map.mlx_ptr, map.scwidth, map.scheight);
 	map.img.data = (int*)mlx_get_data_addr(map.img_ptr, &map.img.bpp, &map.img.sizeline, &map.img.endian);
-	map.win_ptr = mlx_new_window(map.mlx_ptr, map.scheight, map.scwidth, "CUBE");
+	map.win_ptr = mlx_new_window(map.mlx_ptr, map.scwidth, map.scheight, "CUBE");
 
 	ft_printwall(map);
 

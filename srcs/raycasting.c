@@ -1,15 +1,15 @@
 /* ************************************************************************** */
-/*                                                          LE - /            */
-/*                                                              /             */
-/*   raycasting.c                                     .::    .:/ .      .::   */
-/*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
-/*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2020/01/30 08:38:04 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/25 11:40:09 by manaccac    ###    #+. /#+    ###.fr     */
-/*                                                         /                  */
-/*                                                        /                   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycasting.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/30 08:38:04 by manaccac          #+#    #+#             */
+/*   Updated: 2020/02/27 12:11:36 by manaccac         ###   ########lyon.fr   */
+/*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../includes/cube.h"
 
@@ -71,7 +71,7 @@ double raycasting(t_player player, int x, t_map *map)
 {
 	t_calray calray;
 
-	player.cameraX = 2 * x / (double)map->scheight - 1;
+	player.cameraX = 2 * x / (double)map->scwidth - 1;
 	calray.rayDirX = player.dirX + player.planeX * player.cameraX;
 	calray.rayDirY = player.dirY + player.planeY * player.cameraX;
 	calray.mapX = (int)player.posX;
