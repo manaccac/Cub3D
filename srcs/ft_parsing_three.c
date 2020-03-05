@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 13:27:59 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/02 08:17:18 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 14:06:11 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int				ft_ground_sky(char *str, int i, t_map *map)
 			return (0);
 		}
 	}
-	ft_puterror(map);
+	ft_puterror(map, "Error Colors\n");
 	free(str);
 	return (0);
 }

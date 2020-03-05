@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 08:56:54 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/05 10:06:21 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 14:08:25 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,6 +306,9 @@ int	main() //void	cube()
 	map.player.key_q = 0;
 
 	ft_parsing_map(&map);
+	if (map.error == 1)
+		return (0);
+	ft_check_parsing(&map);
 
 	map.zbuffer = (double *)malloc(sizeof(double) * map.scwidth);
  	map.mlx_ptr = mlx_init();

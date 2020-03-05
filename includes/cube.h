@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 08:29:10 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/05 09:31:44 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 14:10:41 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,6 +205,7 @@ typedef	struct	s_map
 	int			scwidth;
 	int			scheight;
 	int				error;
+	int				error_parsing;
 }				t_map;
 
 int				ft_parsing_map(t_map *map);
@@ -212,9 +213,12 @@ void	ft_raycasting_sprite(t_map *map);
 double raycasting(t_player player, int x, t_map *map);
 int				ft_ground_sky(char *str, int i, t_map *map);
 int				ft_find(const char c, const char *str);
-int				ft_puterror(t_map *map);
+int				ft_puterror(t_map *map, char *str);
 int				ft_parsing(char *s, t_map *map);
 int				ft_read_map(t_map *map);
+int				ft_check_parsing(t_map *map);
+void	ft_putchar(char c);
+void	ft_putstr(char *str);
 
 # define KEY_ESCAPE         53
 # define KEY_F1             122

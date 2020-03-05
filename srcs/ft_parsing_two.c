@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 13:20:57 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/05 13:46:06 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 14:14:37 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void		ft_recover_sprite(t_map *map)
 	}
 	if (map->nb_sprites > 50)
 	{
-		ft_puterror(map);
+		ft_puterror(map, "TO MANY SPRITES");
 		return ;
 	}
 
@@ -69,7 +69,7 @@ void		ft_check_last_line(t_map *map)
 	{
 		if (map->worldmap[x][y] != 1)
 		{
-			ft_puterror(map);
+			ft_puterror(map, "Error Map\n");
 			return ;
 		}
 		y++;
@@ -158,7 +158,7 @@ int				ft_parsing_map_two(t_map *map, int i)
 {
 	if (ft_map_error(map->pars.str, map->pars.width) == 0)
 	{
-		ft_puterror(map);
+		ft_puterror(map, "Error Map\n");
 		return (0);
 	}
 	map->pars.height = ft_strlen(map->pars.str) / map->pars.width;
@@ -212,7 +212,7 @@ int				ft_parsing_map(t_map *map)
 			if (map->pars.twidth != map->pars.width || line[0] != '1' ||
 				line[ft_strlen(line) - 1] != '1')
 			{
-				ft_putstr_fd("ERROR\n", 1);
+				ft_putstr_fd("ERROR Map\n", 1);
 				map->error = 1;
 				return (0);
 			}

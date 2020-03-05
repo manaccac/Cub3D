@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 07:54:51 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/05 08:17:09 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 14:07:17 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char			*ft_parsing_texture(char *s, t_map *map)
 		map->pars.perm++;
 		return (dest);
 	}
-	ft_puterror(map);
+	ft_puterror(map, "Error Texture\n");
 	free(str);
 	return (dest);
 }
@@ -55,7 +55,7 @@ int				ft_resolution_two(char *str, t_map *map, int i, int j)
 			return (0);
 		}
 	}
-	ft_puterror(map);
+	ft_puterror(map, "Error Resolution\n");
 	free(map->pars.width_str);
 	free(map->pars.height_str);
 	free(str);

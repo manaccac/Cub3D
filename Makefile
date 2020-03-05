@@ -8,7 +8,7 @@ LIBS		=					libft/libft.a
 SRC_PATH	=					srcs
 SRCS_NAME	=		ft_sprite_raycasting.c raycasting.c main.c \
 					ft_parsing.c ft_parsing_two.c ft_parsing_three.c \
-					ft_puterror.c
+					ft_puterror.c ft_check_parsing.c
 OBJS		= 					${SRCS:.c=.o}
 NAME		= 					Cub3D
 RM			= 					rm -f

@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/03 11:05:49 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/03 11:39:59 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 13:59:47 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	ft_putstr(char *str)
 	}
 }
 
-int				ft_puterror(t_map *map)
+int				ft_puterror(t_map *map, char *str)
 {
 	map->error = 1;
-	ft_putstr("ERROR\n");
+	ft_putstr(str);
 	return (0);
 }
