@@ -6,11 +6,57 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 13:20:57 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/03 15:07:32 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 13:46:06 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cube.h"
+
+
+void		ft_recover_sprite(t_map *map)
+{
+	int x;
+	int y;
+	int i;
+
+	x = 0;
+	y = 0;
+	i = 0;
+	while (x < map->pars.height)
+	{
+		while (y < map->pars.width)
+		{
+			if (map->worldmap[x][y] == 2)
+				map->nb_sprites++;
+			y++;
+		}
+		x++;
+		y = 0;
+	}
+	if (map->nb_sprites > 50)
+	{
+		ft_puterror(map);
+		return ;
+	}
+
+	x = 0;
+	y = 0;
+	while (x < map->pars.height)
+	{
+		while (y < map->pars.width)
+		{
+			if (map->worldmap[x][y] == 2)
+			{
+				map->sprites[i].posx = x + 0.5;
+				map->sprites[i].posy = y + 0.5;
+				i++;
+			}
+			y++;
+		}
+		x++;
+		y = 0;
+	}
+}
 
 void		ft_check_last_line(t_map *map)
 {
@@ -134,7 +180,7 @@ int				ft_parsing_map_two(t_map *map, int i)
 	}
 	ft_read_map(map);
 	ft_check_last_line(map);
-//	ft_recover_sprite(map);
+	ft_recover_sprite(map);
 	return (0);
 }
 
@@ -175,47 +221,3 @@ int				ft_parsing_map(t_map *map)
 	return (ft_parsing_map_two(map, i));
 }
 
-/*
-void		ft_recover_sprite(t_map *map)
-{
-	int x;
-	int y;
-	int i;
-
-	x = 0;
-	y = 0;
-	i = 0;
-	while (x < map->pars.height)
-	{
-		while (y < map->pars.width)
-		{
-			if (map->worldmap[x][y] == 2)
-				map->nb_sprites++;
-			y++;
-		}
-		x++;
-		y = 0;
-	}
-	if (!(map->sprite.posX = malloc(sizeof(int *) * map->nb_sprites)))
-		return ;
-	if (!(map->sprite.posY = malloc(sizeof(int *) * map->nb_sprites)))
-		return ;
-	x = 0;
-	y = 0;
-	while (x < map->pars.height)
-	{
-		while (y < map->pars.width)
-		{
-			if (map->worldmap[x][y] == 2)
-			{
-				map->sprite.posX[i] = x;
-				map->sprite.posY[i] = y;
-				i++;
-			}
-			y++;
-		}
-		x++;
-		y = 0;
-	}
-}
-*/

@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 08:56:54 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/05 08:22:18 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 10:06:21 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ t_mouvperm	ft_colision(t_map map)
 
 	if (map.worldmap[(int)(map.player.mouveX + map.player.posX)][(int)(map.player.mouveY + map.player.posY)])
 	{
-		if (map.worldmap[(int)map.player.posX][(int)(map.player.mouveY + map.player.posY)] > 0)
+		if (map.worldmap[(int)map.player.posX][(int)(map.player.mouveY + map.player.posY)] == 1)
 			mouvperm.y = 0;
-		if (map.worldmap[(int)(map.player.mouveX + map.player.posX)][(int)map.player.posY] > 0)
+		if (map.worldmap[(int)(map.player.mouveX + map.player.posX)][(int)map.player.posY] == 1)
 			mouvperm.x = 0;
 	}
 	return (mouvperm);
@@ -306,8 +306,6 @@ int	main() //void	cube()
 	map.player.key_q = 0;
 
 	ft_parsing_map(&map);
-	dprintf(1,"posx = %f\n", map.player.posX);
-	dprintf(1,"posy = %f\n", map.player.posY);
 
 	map.zbuffer = (double *)malloc(sizeof(double) * map.scwidth);
  	map.mlx_ptr = mlx_init();

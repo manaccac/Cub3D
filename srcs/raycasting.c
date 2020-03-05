@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 08:38:04 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/03 16:22:33 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 09:06:12 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ double raycasting(t_player player, int x, t_map *map)
 			calray.mapY += calray.stepY;
 			calray.side = 1;
 		}
-		if(map->worldmap[calray.mapX][calray.mapY] > 0)
+		if(map->worldmap[calray.mapX][calray.mapY] == 1)
 			calray.hit = 1;
 	}
 	if(calray.side == 0)
