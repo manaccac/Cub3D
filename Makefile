@@ -1,37 +1,21 @@
-# **************************************************************************** #
-#                                                           LE - /             #
-#                                                               /              #
-#    Makefile                                         .::    .:/ .      .::    #
-#                                                  +:+:+   +:    +:  +:+:+     #
-#    By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+      #
-#                                                  #+#   #+    #+    #+#       #
-#    Created: 2020/01/30 08:48:57 by manaccac     #+#   ##    ##    #+#        #
-#    Updated: 2020/01/31 09:32:34 by manaccac    ###    #+. /#+    ###.fr      #
-#                                                          /                   #
-#                                                         /                    #
-# **************************************************************************** #
-
-# **************************************************************************** #
-#								VARIABLES							           #
-# **************************************************************************** #
-HEAD_PATH	=					includes
-HEAD_NAME	=					cube.h ../minilibx_opengl_20191021/mlx.h
+HEAD_PATH	=					.
+HEAD_NAME	=					includes/cube.h minilibx_opengl_20191021/mlx.h
 HEADER		=					$(addprefix $(HEAD_PATH)/,$(HEAD_NAME))
 MINILIBX	=					libmlx.a
 MINILIBXS	=					minilibx_opengl_20191021/libmlx.a
 LIB			=					libft.a
 LIBS		=					libft/libft.a
 SRC_PATH	=					srcs
-SRCS	= 						cube.c raycasting.c
+SRCS_NAME	=		ft_sprite_raycasting.c raycasting.c main.c \
+					ft_parsing.c ft_parsing_two.c ft_parsing_three.c \
+					ft_puterror.c
 OBJS		= 					${SRCS:.c=.o}
 NAME		= 					Cub3D
 RM			= 					rm -f
-FLAGS 		= 					-Wall -Wextra -Werror -g3
+FLAGS 		= 					#-Wall -Wextra -Werror -g3
 GFLAGS 		=					-lmlx -framework OpenGL -framework AppKit
 SRCS 		= 					$(addprefix $(SRC_PATH)/,$(SRCS_NAME))
-# **************************************************************************** #
-#								REGLES								           #
-# **************************************************************************** #
+
 all:							$(MINILIBX) $(LIB) CUBE $(NAME)
 %.o: %.c 						$(HEADER) $(LIBS) $(MINILIBXS)
 								@echo "\033[0;32m[OK] \033[0m \033[0;33m Compiling:\033[0m" $<

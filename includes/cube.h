@@ -1,15 +1,15 @@
 /* ************************************************************************** */
-/*                                                          LE - /            */
-/*                                                              /             */
-/*   cube.h                                           .::    .:/ .      .::   */
-/*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: manaccac <manaccac@student.le-101.fr>      +:+   +:    +:    +:+     */
-/*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2020/01/30 08:29:10 by manaccac     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/25 17:09:32 by manaccac    ###    #+. /#+    ###.fr     */
-/*                                                         /                  */
-/*                                                        /                   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cube.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/30 08:29:10 by manaccac          #+#    #+#             */
+/*   Updated: 2020/03/03 11:09:09 by manaccac         ###   ########lyon.fr   */
+/*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef CUBE_H
 # define CUBE_H
@@ -154,9 +154,15 @@ typedef struct s_pars
 	char	*str;
 	int		x;
 	int		y;
-	int		ground_b;
-	int		sky_b;
 	int		perm;
+	char			*width_str;
+	char			*height_str;
+	int				ground_r;
+	int				ground_g;
+	int				ground_b;
+	int				sky_r;
+	int				sky_g;
+	int				sky_b;
 }				t_pars;
 
 
@@ -198,11 +204,17 @@ typedef	struct	s_map
 	int			**worldmap;
 	int			scwidth;
 	int			scheight;
+	int				error;
 }				t_map;
 
 int				ft_parsing_map(t_map *map);
 void	ft_raycasting_sprite(t_map *map);
 double raycasting(t_player player, int x, t_map *map);
+int				ft_ground_sky(char *str, int i, t_map *map);
+int				ft_find(const char c, const char *str);
+int				ft_puterror(t_map *map);
+int				ft_parsing(char *s, t_map *map);
+int				ft_read_map(t_map *map);
 
 # define KEY_ESCAPE         53
 # define KEY_F1             122

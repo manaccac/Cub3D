@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 11:48:08 by manaccac          #+#    #+#             */
-/*   Updated: 2020/02/27 12:11:16 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/03 16:23:34 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@ int				ft_abs1(int nb)
 	return (nb < 0 ? -nb : nb);
 }
 
-void	ft_draw_sprite(t_map *map, int i)
+void	ft_draw_sprite(t_map *map)
 {
 	t_color		color;
 	size_t		d;
 	int			y;
-	double		dark;
 
 	y = map->draw_start.y - 1;
 	while (++y < map->draw_end.y)
@@ -81,7 +80,7 @@ void	ft_raycasting_sprite(t_map *map)
 		{
 			map->tex_x = (int)((256 * (map->stripe -  (-map->sprite_width / 2 + map->sprite_screen_x)) * map->text_spr.width / map->sprite_width) / 256);
 			if (map->transform.y > 0 && map->stripe > 0 && map->stripe < map->scwidth && map->transform.y < map->zbuffer[map->stripe])
-				ft_draw_sprite(map, i);
+				ft_draw_sprite(map);
 			map->stripe++;
 		}
 		i++;
