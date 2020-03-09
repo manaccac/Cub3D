@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_puterror.c                                      :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/03 11:05:49 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/09 13:59:02 by manaccac         ###   ########lyon.fr   */
+/*   Created: 2020/03/09 13:31:37 by manaccac          #+#    #+#             */
+/*   Updated: 2020/03/09 13:34:05 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cube.h"
+#include <unistd.h>
 
-int				ft_puterror(t_map *map, char *str)
+void	ft_putchar_v(char c)
 {
-	map->error = 1;
-	ft_putstr_v(str);
-	return (0);
+	write(1, &c, 1);
 }

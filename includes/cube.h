@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 08:29:10 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/05 14:10:41 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/09 13:57:04 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,12 @@ typedef	struct	s_vector
 	double	y;
 }	t_vector;
 
+typedef	struct	s_vector_int
+{
+	int		x;
+	int		y;
+}	t_vector_int;
+
 typedef	struct	s_sprites
 {
 	double	dist;
@@ -163,6 +169,8 @@ typedef struct s_pars
 	int				sky_r;
 	int				sky_g;
 	int				sky_b;
+	int				*size;
+	char			*temp_two;
 }				t_pars;
 
 
@@ -186,7 +194,7 @@ typedef	struct	s_map
 	int		nb_sprites;
 	t_texture texture[4];
 	t_vector sprite;
-	t_sprites sprites[50];
+	t_sprites *sprites;
 	t_vector transform;
 	double	inv_det;
 	int		sprite_screen_x;
@@ -206,6 +214,12 @@ typedef	struct	s_map
 	int			scheight;
 	int				error;
 	int				error_parsing;
+
+	t_vector_int	map_pars;
+	char			**map_temp;
+	int		a;
+	int		b;
+
 }				t_map;
 
 int				ft_parsing_map(t_map *map);
@@ -214,11 +228,23 @@ double raycasting(t_player player, int x, t_map *map);
 int				ft_ground_sky(char *str, int i, t_map *map);
 int				ft_find(const char c, const char *str);
 int				ft_puterror(t_map *map, char *str);
-int				ft_parsing(char *s, t_map *map);
+int				ft_parsing(t_map *map);
 int				ft_read_map(t_map *map);
 int				ft_check_parsing(t_map *map);
-void	ft_putchar(char c);
-void	ft_putstr(char *str);
+void			ft_putchar_v(char c);
+void			ft_putstr_v(char *str);
+char			*ft_parsing_texture(char *s, t_map *map);
+int				ft_parsing_resolution(char *s, t_map *map);
+int				ft_parsing_ground_sky_two(char *str, int i, t_map *map);
+void			ft_recover_sprite(t_map *map);
+int				ft_fill_map(t_map *map);
+int				ft_check_map(t_map *map);
+int				ft_check_map_char(char *str);
+int				ft_parsing_ground_sky(char *s, t_map *map);
+int				ft_resolution_two(char *str, t_map *map, int i, int j);
+int				ft_parsing_start(char *s, t_map *map);
+void                    ft_recover_sprite_two(t_map *map, int x, int y, int i);
+int				ft_check_wall(int x, int y, t_map *map);
 
 # define KEY_ESCAPE         53
 # define KEY_F1             122

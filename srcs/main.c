@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 08:56:54 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/05 14:08:25 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/09 14:12:19 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,11 @@ t_mouvperm	ft_colision(t_map map)
 	mouvperm.x = 1;
 	mouvperm.y = 1;
 
-	if (map.worldmap[(int)(map.player.mouveX + map.player.posX)][(int)(map.player.mouveY + map.player.posY)])
-	{
-		if (map.worldmap[(int)map.player.posX][(int)(map.player.mouveY + map.player.posY)] == 1)
-			mouvperm.y = 0;
-		if (map.worldmap[(int)(map.player.mouveX + map.player.posX)][(int)map.player.posY] == 1)
-			mouvperm.x = 0;
-	}
+	if (map.worldmap[(int)map.player.posX][(int)(map.player.mouveY + map.player.posY)] == 1)
+		mouvperm.y = 0;
+	if (map.worldmap[(int)(map.player.mouveX + map.player.posX)][(int)map.player.posY] == 1)
+		mouvperm.x = 0;
+
 	return (mouvperm);
 }
 
@@ -289,8 +287,6 @@ int	main() //void	cube()
 {
 	t_map map;
 
-//	map = ft_parsing(map);
-//	map = ft_init_player(map);
 	map.error = 0;
 	map.pars.height = 0;
 	map.pars.width = 0;
@@ -305,7 +301,7 @@ int	main() //void	cube()
 	map.player.key_e = 0;
 	map.player.key_q = 0;
 
-	ft_parsing_map(&map);
+	ft_parsing(&map);
 	if (map.error == 1)
 		return (0);
 	ft_check_parsing(&map);

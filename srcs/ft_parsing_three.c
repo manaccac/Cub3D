@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 13:27:59 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/05 14:06:11 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/09 13:55:35 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,25 +91,27 @@ int				ft_find(const char c, const char *str)
 	return (0);
 }
 
-int				ft_ground_sky(char *str, int i, t_map *map)
+char			*ft_parsing_texture(char *s, t_map *map)
 {
-	if (str[i] == ',')
+	int		i;
+	char	*str;
+	char	*dest;
+
+	i = 1;
+	str = ft_strdup(s);
+	while (str[i] != ' ')
 		i++;
-	if (str[0] == 'F')
-		map->pars.ground_b = ft_atoi_pimp(str, i);
-	if (str[0] == 'C')
-		map->pars.sky_b = ft_atoi_pimp(str, i);
-	while ((ft_isdigit(str[i]) == 1) && str[i] != '\0')
+	i++;
+	dest = ft_strcpy_pimp(str, i);
+	while (str[i] != '\0' && ft_isascii(str[i]) == 1)
+		i++;
+	if (str[i] == '\0')
 	{
-		i++;
-		if (str[i] == '\0')
-		{
-			free(str);
-			map->pars.perm++;
-			return (0);
-		}
+		free(str);
+		map->pars.perm++;
+		return (dest);
 	}
-	ft_puterror(map, "Error Colors\n");
+	ft_puterror(map, "Error Texture\n");
 	free(str);
-	return (0);
+	return (dest);
 }

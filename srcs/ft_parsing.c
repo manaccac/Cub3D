@@ -6,145 +6,116 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 07:54:51 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/05 14:07:17 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/09 13:58:11 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cube.h"
 
-char			*ft_parsing_texture(char *s, t_map *map)
+int				ft_conv_map(t_map *map)
 {
-	int		i;
-	char	*str;
-	char	*dest;
+	int x;
+	int y;
 
-	i = 1;
-	str = ft_strdup(s);
-	while (str[i] != ' ')
-		i++;
-	i++;
-	dest = ft_strcpy_pimp(dest, str, i);
-	while (str[i] != '\0' && ft_isascii(str[i]) == 1)
-		i++;
-	if (str[i] == '\0')
+	x = 0;
+	y = 0;
+	if (!(map->worldmap = (int**)malloc(sizeof(int*) * map->pars.height)))
+		return (0);
+	while (map->map_temp[x])
 	{
-		free(str);
-		map->pars.perm++;
-		return (dest);
+		if (!(map->worldmap[x] = malloc(sizeof(int*) *
+				(int)ft_strlen(map->map_temp[x]))))
+			return (0);
+		while (map->map_temp[x][y])
+		{
+			map->worldmap[x][y] = ft_atoi_char(map->map_temp[x][y]);
+			y++;
+		}
+		y = 0;
+		x++;
 	}
-	ft_puterror(map, "Error Texture\n");
-	free(str);
-	return (dest);
+	return (0);
 }
 
-int				ft_resolution_two(char *str, t_map *map, int i, int j)
+int				ft_parsing_choose(t_map *map, char *line)
 {
-	while ((ft_isdigit(str[i]) == 1) && str[i] != ' ')
+	if (map->pars.width != 0)
 	{
-		map->pars.height_str[j] = str[i];
-		i++;
-		j++;
-		if (str[i] == '\0')
-		{
-			map->scwidth = ft_atoi(map->pars.width_str);
-			map->scheight = ft_atoi(map->pars.height_str);
-			free(str);
-			free(map->pars.width_str);
-			free(map->pars.height_str);
-			map->pars.perm++;
+		map->pars.temp = ft_strdup(map->pars.str);
+		free(map->pars.str);
+		map->pars.str = ft_strjoin(map->pars.temp, line);
+		map->pars.twidth = ft_strlen(line);
+	}
+	if (map->pars.width == 0)
+	{
+		map->pars.str = ft_strdup(line);
+		map->pars.width = ft_strlen(line);
+		map->pars.twidth = map->pars.width;
+	}
+	return (0);
+}
+
+int				ft_parsing_map_three(t_map *map)
+{
+	int x;
+
+	x = 0;
+	ft_check_map_char(map->pars.str);
+	map->map_temp = ft_split(map->pars.str, '\n');
+	while (map->map_temp[x])
+	{
+		map->pars.height++;
+		x++;
+	}
+	x = 0;
+	if (ft_check_map(map) == 0)
+		return (0);
+	ft_fill_map(map);
+	ft_conv_map(map);
+	ft_read_map(map);
+	ft_recover_sprite(map);
+	return (0);
+}
+
+void			ft_parsing_map_two(t_map *map, int count, char *line)
+{
+	if (line[0] != '1' && count == 1)
+		free(line);
+	else
+	{
+		map->pars.temp_two = ft_strdup_pimp(line);
+		free(line);
+		line = ft_strdup(map->pars.temp_two);
+		free(map->pars.temp_two);
+		map->pars.temp = ft_strdup(line);
+		free(line);
+		line = ft_strdup(map->pars.temp);
+		free(map->pars.temp);
+		ft_parsing_choose(map, line);
+		free(line);
+	}
+}
+
+int				ft_parsing(t_map *map)
+{
+	int		fd;
+	char	*line;
+	int		count;
+
+	line = NULL;
+	count = 0;
+	fd = open("map.txt", O_RDONLY);
+	while (get_next_line(fd, &line) > 0)
+	{
+		if (map->error == 1)
 			return (0);
+		if (map->pars.perm != 8)
+			ft_parsing_start(line, map);
+		else if (map->pars.perm == 8)
+		{
+			count++;
+			ft_parsing_map_two(map, count, line);
 		}
 	}
-	ft_puterror(map, "Error Resolution\n");
-	free(map->pars.width_str);
-	free(map->pars.height_str);
-	free(str);
-	return (0);
-}
-
-int				ft_parsing_resolution(char *s, t_map *map)
-{
-	int		i;
-	int		j;
-	char	*str;
-
-	i = 1;
-	j = 0;
-	if (!(map->pars.width_str = (char *)malloc(sizeof(char) * 4)))
-		return (0);
-	if (!(map->pars.height_str = (char *)malloc(sizeof(char) * 4)))
-		return (0);
-	str = ft_strdup(s);
-	while (str[i] == ' ')
-		i++;
-	while ((ft_isdigit(str[i]) == 1) && str[i] != ' ')
-	{
-		map->pars.width_str[j] = str[i];
-		i++;
-		j++;
-	}
-	j = 0;
-	while (str[i] == ' ')
-		i++;
-	return (ft_resolution_two(str, map, i, j));
-}
-
-int				ft_parsing_ground_sky(char *s, t_map *map)
-{
-	int		i;
-	char	*str;
-
-	i = 1;
-	str = ft_strdup(s);
-	while (str[i] == ' ' && str[i])
-		i++;
-	if (str[0] == 'F')
-		map->pars.ground_r = ft_atoi_pimp(str, i);
-	if (str[0] == 'C')
-		map->pars.sky_r = ft_atoi_pimp(str, i);
-	while ((ft_isdigit(str[i]) == 1) && str[i] != ',' && str[i])
-		i++;
-	if (str[i] == ',')
-		i++;
-	if (str[0] == 'F')
-		map->pars.ground_g = ft_atoi_pimp(str, i);
-	if (str[0] == 'C')
-		map->pars.sky_g = ft_atoi_pimp(str, i);
-	while ((ft_isdigit(str[i]) == 1) && str[i] != ',' && str[i])
-		i++;
-	return (ft_ground_sky(str, i, map));
-}
-
-int				ft_parsing(char *s, t_map *map)
-{
-	if (ft_strncmp(s, "R ", 2) == 0)
-		return (ft_parsing_resolution(s, map));
-	else if (ft_strncmp(s, "F ", 2) == 0 || ft_strncmp(s, "C ", 2) == 0)
-		return (ft_parsing_ground_sky(s, map));
-	else if (ft_strncmp(s, "NO ", 2) == 0)
-		map->texture[0].textpath = ft_parsing_texture(s, map);
-	else if (ft_strncmp(s, "SO ", 2) == 0)
-		map->texture[1].textpath = ft_parsing_texture(s, map);
-	else if (ft_strncmp(s, "EA ", 2) == 0)
-		map->texture[2].textpath = ft_parsing_texture(s, map);
-	else if (ft_strncmp(s, "WE ", 2) == 0)
-		map->texture[3].textpath = ft_parsing_texture(s, map);
-	else if (ft_strncmp(s, "S ", 1) == 0)
-		map->text_spr.textpath = ft_parsing_texture(s, map);
-
-/*
-	dprintf(1, "width = %d\n", map->scwidth);
-	dprintf(1, "height = %d\n", map->scheight);
-
-	dprintf(1, "couleur groupe r = %d, g = %d, b = %d\n", map->pars.ground_r, map->pars.ground_g, map->pars.ground_b);
-	dprintf(1, "couleur sky r = %d, g = %d, b = %d\n", map->pars.sky_r, map->pars.sky_g, map->pars.sky_b);
-
-	dprintf(1, "path NO = |%s|\n", map->texture[0].textpath);
-	dprintf(1, "path SO = |%s|\n", map->texture[1].textpath);
-	dprintf(1, "path EA = |%s|\n", map->texture[2].textpath);
-	dprintf(1, "path WE = |%s|\n", map->texture[3].textpath);
-	dprintf(1, "path S = |%s|\n", map->text_spr.textpath);
-	dprintf(1, "perm = %d\n", map->pars.perm);
-*/
-	return (0);
+	return (ft_parsing_map_three(map));
 }
