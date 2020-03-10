@@ -9,7 +9,8 @@ SRC_PATH	=					srcs
 SRCS_NAME	=		ft_sprite_raycasting.c raycasting.c main.c \
 					ft_parsing.c ft_parsing_two.c ft_parsing_three.c \
 					ft_puterror.c ft_check_parsing.c ft_putstr.c \
-					ft_parsing_for.c ft_putchar.c\
+					ft_parsing_for.c ft_putchar.c ft_check_cub.c\
+					ft_check_save.c\
 
 OBJS		= 					${SRCS:.c=.o}
 NAME		= 					Cub3D

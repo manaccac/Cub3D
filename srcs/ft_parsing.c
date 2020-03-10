@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 07:54:51 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/09 13:58:11 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/10 08:13:49 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int				ft_parsing(t_map *map)
 
 	line = NULL;
 	count = 0;
-	fd = open("map.txt", O_RDONLY);
+	fd = open(map->cub, O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (map->error == 1)

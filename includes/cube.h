@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 08:29:10 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/09 13:57:04 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/10 08:08:46 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,7 @@ typedef	struct	s_map
 	int			scheight;
 	int				error;
 	int				error_parsing;
+	char			*cub;
 
 	t_vector_int	map_pars;
 	char			**map_temp;
@@ -245,6 +246,8 @@ int				ft_resolution_two(char *str, t_map *map, int i, int j);
 int				ft_parsing_start(char *s, t_map *map);
 void                    ft_recover_sprite_two(t_map *map, int x, int y, int i);
 int				ft_check_wall(int x, int y, t_map *map);
+int		ft_check_cub(char	*str);
+int		ft_check_save(char	*str);
 
 # define KEY_ESCAPE         53
 # define KEY_F1             122

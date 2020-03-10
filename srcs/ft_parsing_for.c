@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 12:54:24 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/09 12:56:22 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/09 14:32:01 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int				ft_fill_map_two(t_map *map, int x, int y)
 		while (map->map_temp[x][y])
 		{
 			if (map->map_temp[x][y] == ' ')
-				map->map_temp[x][y] = '0';
+				map->map_temp[x][y] = '1';
 			y++;
 		}
 		y = 0;
