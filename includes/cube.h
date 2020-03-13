@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 08:29:10 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/10 08:08:46 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/10 13:53:17 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,10 +169,32 @@ typedef struct s_pars
 	int				sky_r;
 	int				sky_g;
 	int				sky_b;
-	int				*size;
 	char			*temp_two;
 }				t_pars;
 
+typedef struct	s_bitmap_file_header
+{
+	unsigned char	bitmap_type[2];
+	int				file_size;
+	short			reserved1;
+	short			reserved2;
+	unsigned int	offset_bits;
+}				t_bfh;
+
+typedef struct	s_bitmap_image_header
+{
+	unsigned int	size_header;
+	unsigned int	width;
+	unsigned int	height;
+	short int		planes;
+	short int		bit_count;
+	unsigned int	compression;
+	unsigned int	image_size;
+	unsigned int	ppm_x;
+	unsigned int	ppm_y;
+	unsigned int	clr_used;
+	unsigned int	clr_important;
+}				t_bih;
 
 typedef	struct	s_map
 {
@@ -194,7 +216,7 @@ typedef	struct	s_map
 	int		nb_sprites;
 	t_texture texture[4];
 	t_vector sprite;
-	t_sprites *sprites;
+	t_sprites sprites[50];
 	t_vector transform;
 	double	inv_det;
 	int		sprite_screen_x;
@@ -248,6 +270,7 @@ void                    ft_recover_sprite_two(t_map *map, int x, int y, int i);
 int				ft_check_wall(int x, int y, t_map *map);
 int		ft_check_cub(char	*str);
 int		ft_check_save(char	*str);
+void	save_bitmap(const char *filename, t_map *map);
 
 # define KEY_ESCAPE         53
 # define KEY_F1             122

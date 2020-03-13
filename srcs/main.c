@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 08:56:54 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/10 08:15:14 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/10 12:56:39 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,26 +103,6 @@ int	ft_turnleft(t_map *map)
 	map->player.planeX = map->player.planeX * cos(speed * map->player.key_q) - map->player.planeY * sin(speed * map->player.key_q);
     map->player.planeY = oldPlaneX * sin(speed * map->player.key_q) + map->player.planeY * cos(speed * map->player.key_q);
 	return(0);
-}
-
-t_map ft_init_player(t_map map)
-{
-	map.scwidth = 1920;
-	map.scheight = 1080;
-	map.player.posY = 12;
-	map.player.posX = 22;
-	map.player.dirX = -1;
-	map.player.dirY = 0;
-	map.player.planeX = 0;
-	map.player.planeY = 0.80;
-	map.player.movew = 0;
-	map.player.moved = 0;
-	map.player.moves = 0;
-	map.player.movea = 0;
-	map.player.key_e = 0;
-	map.player.key_q = 0;
-	map.zbuffer = (double *)malloc(sizeof(double) * map.scwidth);
-  return (map);
 }
 
 void ft_vertline(int h, int x, t_map map)
@@ -275,7 +255,7 @@ int	main(int argc, char **argv)
 	map.player.key_e = 0;
 	map.player.key_q = 0;
 
-	if (argc == 2)
+	if (argc >= 2)
 	{
 		if (ft_check_cub(argv[1]) == 0)
 		{
@@ -283,27 +263,14 @@ int	main(int argc, char **argv)
 			return (0);
 		}
 		else
-			map.cub = ft_strdup(argv[1]);
+			map.cub = ft_strdup(argv[1]); //need free
 	}
-	if (argc == 3)
+	if (argc > 3)
 	{
-		if (ft_check_cub(argv[1]) == 0)
-		{
-			ft_putstr_v("Need .cub");
+		ft_putstr_v("To many arguments");
 			return (0);
-		}
-		if (ft_check_save(argv[2]) == 0)
-		{
-			ft_putstr_v("To many arguments");
-			return (0);
-		}
-		else
-		{
-			//bitmap
-			return (0);
-		}
+	}
 
-	}
 
 	ft_parsing(&map);
 	if (map.error == 1)
@@ -316,6 +283,23 @@ int	main(int argc, char **argv)
 	map.img_ptr = mlx_new_image(map.mlx_ptr, map.scwidth, map.scheight);
 	map.img.data = (int*)mlx_get_data_addr(map.img_ptr, &map.img.bpp, &map.img.sizeline, &map.img.endian);
 	map.win_ptr = mlx_new_window(map.mlx_ptr, map.scwidth, map.scheight, "CUBE");
+
+	if (argc == 3)
+	{
+		if (ft_check_save(argv[2]) == 0)
+		{
+			ft_putstr_v("To many arguments");
+			exit(EXIT_SUCCESS);
+			return (0);
+		}
+		else
+		{
+			ft_printwall(map);
+			save_bitmap("cube.bmp", &map);
+			exit(EXIT_SUCCESS);
+			return (0);
+		}
+	}
 
 	ft_printwall(map);
 

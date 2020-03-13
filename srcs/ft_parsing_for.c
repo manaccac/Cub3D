@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 12:54:24 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/09 14:32:01 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/03/10 10:40:23 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ void			ft_recover_sprite(t_map *map)
 
 void			ft_recover_sprite_two(t_map *map, int x, int y, int i)
 {
-	if (!(map->sprites = malloc(sizeof(int *) * map->nb_sprites)))
-		return ;
+	if (map->nb_sprites > 50)
+		ft_puterror(map, "To many sprites max 50");
 	x = 0;
 	y = 0;
 	while (x < map->pars.height)
@@ -99,8 +99,8 @@ void			ft_recover_sprite_two(t_map *map, int x, int y, int i)
 		{
 			if (map->worldmap[x][y] == 2 && i < map->nb_sprites)
 			{
-				map->sprites[i].posx = x;
-				map->sprites[i].posy = y;
+				map->sprites[i].posx = x + 0.5;
+				map->sprites[i].posy = y + 0.5;
 				i++;
 			}
 			y++;
