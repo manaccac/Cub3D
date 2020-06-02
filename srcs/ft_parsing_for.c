@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing_for.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
+/*   By: manaccac <manaccac@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 12:54:24 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/10 10:40:23 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/06/02 08:47:13 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void			ft_recover_sprite(t_map *map)
 	int y;
 	int i;
 
+	map->nb_sprites = 0;
 	x = 0;
 	y = 0;
 	i = 0;
