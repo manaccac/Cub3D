@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_save.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
+/*   By: manaccac <manaccac@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 08:05:58 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/10 08:14:53 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/07/14 11:28:19 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cube.h"
 
-int		ft_check_save(char	*str)
+int		ft_check_save(char *str)
 {
 	if (str[0] == '-' && str[1] == '-' && str[2] == 's'
 		&& str[3] == 'a' && str[4] == 'v' && str[5] == 'e' && str[6] == '\0')

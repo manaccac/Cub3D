@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_cub.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
+/*   By: manaccac <manaccac@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 08:00:30 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/10 08:13:07 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/07/14 11:22:55 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cube.h"
 
-int		ft_check_cub(char	*str)
+int		ft_check_cub(char *str)
 {
 	int i;
 
