@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 11:48:08 by manaccac          #+#    #+#             */
-/*   Updated: 2020/07/14 11:20:08 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/07/14 18:51:59 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		ft_abs1(int nb)
 	return (nb < 0 ? -nb : nb);
 }
 
-int	ft_if_nbsprt(t_map *map, int i, double dist)
+int		ft_if_nbsprt(t_map *map, int i, double dist)
 {
 	if (map->sprites[map->sprt.j].dist < map->sprites[i].dist)
 	{
