@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bitmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
+/*   By: manaccac <manaccac@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 08:55:56 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/10 11:56:49 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/07/14 10:22:54 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	bitmap_image(t_map *map, int fd, t_bih bih)
 	int				y;
 	int				ble;
 	unsigned char	color[3];
+
 	y = map->scheight - 1;
 	while (y >= 0)
 	{
@@ -42,6 +43,7 @@ void	save_bitmap(const char *filename, t_map *map)
 	int			fd;
 	t_bfh		bfh;
 	t_bih		bih;
+
 	ft_memcpy(&bfh.bitmap_type, "BM", 2);
 	bfh.file_size = map->scwidth * map->scheight * 4 + 54;
 	bfh.reserved1 = 0;

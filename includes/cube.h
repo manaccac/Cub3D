@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manaccac <manaccac@student.le-101.fr>      +#+  +:+       +#+        */
+/*   By: manaccac <manaccac@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 08:29:10 by manaccac          #+#    #+#             */
-/*   Updated: 2020/03/10 13:53:17 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/07/14 10:39:04 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,14 @@ typedef struct	s_bitmap_image_header
 	unsigned int	clr_important;
 }				t_bih;
 
+typedef struct	s_sprt
+{
+	int j;
+	double swapx;
+	double swapy;
+	double dist;
+}				t_sprt;
+
 typedef	struct	s_map
 {
 	void *mlx_ptr;
@@ -203,6 +211,7 @@ typedef	struct	s_map
 	void *img_ptr;
 	t_player player;
 	t_img img;
+	t_sprt sprt;
 	char 	*text_north;
 	char	*text_east;
 	char	*text_south;
