@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 08:38:04 by manaccac          #+#    #+#             */
-/*   Updated: 2020/07/14 12:18:51 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/07/19 09:31:23 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,6 @@ double	ft_abs(double n)
 	if (n >= 0)
 		return (n);
 	return (-n);
-}
-
-char	ft_wall_dir(t_calray calray)
-{
-	if (calray.side == 1)
-	{
-		if (calray.stepY > 0)
-			return ('W');
-		else
-			return ('E');
-	}
-	if (calray.side == 0)
-	{
-		if (calray.stepX > 0)
-			return ('S');
-		else
-			return ('N');
-	}
-	return (0);
 }
 
 void	ft_inite_ray(t_player *player, t_calray *calray, int x, t_map *map)
@@ -49,33 +30,6 @@ void	ft_inite_ray(t_player *player, t_calray *calray, int x, t_map *map)
 	calray->deltaDistY = ft_abs(1 / calray->rayDirY);
 	calray->side = 0;
 	calray->hit = 0;
-}
-
-void	ft_ifray(t_player *player, t_calray *calray)
-{
-	if (calray->rayDirX < 0)
-	{
-		calray->stepX = -1;
-		calray->sideDistX = (player->posX - calray->mapX) * calray->deltaDistX;
-	}
-	else
-	{
-		calray->stepX = 1;
-		calray->sideDistX = (calray->mapX + 1.0 - player->posX) *
-			calray->deltaDistX;
-	}
-	if (calray->rayDirY < 0)
-	{
-		calray->stepY = -1;
-		calray->sideDistY = (player->posY - calray->mapY) *
-			calray->deltaDistY;
-	}
-	else
-	{
-		calray->stepY = 1;
-		calray->sideDistY = (calray->mapY + 1.0 - player->posY) *
-			calray->deltaDistY;
-	}
 }
 
 void	ft_ifray2(t_calray *calray, t_map *map)

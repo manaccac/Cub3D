@@ -6,7 +6,7 @@
 /*   By: manaccac <manaccac@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 11:48:08 by manaccac          #+#    #+#             */
-/*   Updated: 2020/07/14 18:51:59 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/07/28 10:36:56 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,7 @@ int		ft_if_nbsprt(t_map *map, int i, double dist)
 		map->sprites[map->sprt.j].posy = map->sprt.swapy;
 		map->sprites[map->sprt.j].dist = dist;
 	}
-	return (i++);
-}
-
-void	ft_draw_sprite(t_map *map)
-{
-	t_color		color;
-	size_t		d;
-	int			y;
-
-	y = map->draw_start.y - 1;
-	while (++y < map->draw_end.y)
-	{
-		d = y * 256 - map->scheight * 128 + map->sprite_height * 128;
-		map->tex_y = ((d * map->text_spr.height) / map->sprite_height) / 256;
-		color.color = map->text_spr.img_data[map->tex_y *
-						map->text_spr.width + map->tex_x];
-		if ((color.color & 0xffffff) != 0)
-			map->img.data[y * map->scwidth + map->stripe] = color.color;
-	}
+	return (i);
 }
 
 void	ft_sort(t_map *map)
@@ -72,7 +54,7 @@ void	ft_sort(t_map *map)
 	while (map->sprt.j < map->nb_sprites)
 	{
 		while (i < map->nb_sprites)
-			i = ft_if_nbsprt(map, i, dist);
+			i = ft_if_nbsprt(map, i, dist) + 1;
 		map->sprt.j++;
 		i = map->sprt.j + 1;
 	}

@@ -6,32 +6,31 @@
 /*   By: manaccac <manaccac@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 08:29:10 by manaccac          #+#    #+#             */
-/*   Updated: 2020/07/14 10:39:04 by manaccac         ###   ########lyon.fr   */
+/*   Updated: 2020/07/28 09:48:57 by manaccac         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef CUBE_H
 # define CUBE_H
 
 # include "../libft/libft.h"
-#include "../minilibx_opengl_20191021/mlx.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
+# include "../minilibx_opengl_20191021/mlx.h"
+# include <stdlib.h>
+# include <stdio.h>
+# include <math.h>
 # include <unistd.h>
-#include <fcntl.h>
+# include <fcntl.h>
 
-typedef struct s_img
+typedef struct	s_img
 {
-	int bpp;
-	int endian;
-	int sizeline;
-	unsigned int img_color;
-	int *data;
-}	t_img;
+	int				bpp;
+	int				endian;
+	int				sizeline;
+	unsigned int	img_color;
+	int				*data;
+}				t_img;
 
-typedef struct s_color
+typedef struct	s_color
 {
 	int r;
 	int g;
@@ -48,7 +47,7 @@ typedef	struct	s_texture
 	int			sizeline;
 	int			endian;
 	int			width;
-	int 		height;
+	int			height;
 	char		*textpath;
 }				t_texture;
 
@@ -56,48 +55,48 @@ typedef	struct	s_mouvperm
 {
 	int	x;
 	int	y;
-}		t_mouvperm;
+}				t_mouvperm;
 
 typedef	struct	s_player
 {
-	double 	posY;
-	double 	posX;
-	double 	dirX;
-	double 	dirY;
-	double 	cameraX;
-	double 	planeX;
-	double 	planeY;
+	double	posY;
+	double	posX;
+	double	dirX;
+	double	dirY;
+	double	cameraX;
+	double	planeX;
+	double	planeY;
 	int		movew;
 	int		moved;
 	int		moves;
 	int		movea;
 	int		key_e;
 	int		key_q;
-	double 	mouveX;
+	double	mouveX;
 	double	mouveY;
 }				t_player;
 
-typedef struct s_calray
+typedef struct	s_calray
 {
-	double rayDirX;
-	double rayDirY;
-	int mapX;
-	int mapY;
-	double sideDistX;
-	double sideDistY;
-	double deltaDistX;
-	double deltaDistY;
-	double perpWallDist;
-	int stepX;
-	int stepY;
-	int hit;
-	int side;
-	int lineHeight;
-	int drawStart;
-	int drawEnd;
-}	t_calray;
+	double	rayDirX;
+	double	rayDirY;
+	int		mapX;
+	int		mapY;
+	double	sideDistX;
+	double	sideDistY;
+	double	deltaDistX;
+	double	deltaDistY;
+	double	perpWallDist;
+	int		stepX;
+	int		stepY;
+	int		hit;
+	int		side;
+	int		lineHeight;
+	int		drawStart;
+	int		drawEnd;
+}				t_calray;
 
-typedef struct		s_text_spr
+typedef struct	s_text_spr
 {
 	void			*image;
 	int				width;
@@ -107,51 +106,51 @@ typedef struct		s_text_spr
 	int				sizeline;
 	int				endian;
 	char			*textpath;
-}					t_text_spr;
+}				t_text_spr;
 
-typedef struct s_sprcal
+typedef struct	s_sprcal
 {
 	int		nbspr;
-	double spritex;
-	double spritey;
-	double invdet;
-	double transformx;
-	double transformy;
-	int spritescreenx;
-}	t_sprcal;
+	double	spritex;
+	double	spritey;
+	double	invdet;
+	double	transformx;
+	double	transformy;
+	int		spritescreenx;
+}				t_sprcal;
 
 typedef	struct	s_vector
 {
 	double	x;
 	double	y;
-}	t_vector;
+}				t_vector;
 
 typedef	struct	s_vector_int
 {
 	int		x;
 	int		y;
-}	t_vector_int;
+}				t_vector_int;
 
 typedef	struct	s_sprites
 {
 	double	dist;
 	double	posx;
 	double	posy;
-}	t_sprites;
+}				t_sprites;
 
 typedef struct	s_draw_start
 {
 	int	x;
 	int	y;
-}	t_draw_start;
+}				t_draw_start;
 
 typedef struct	s_draw_end
 {
 	int	x;
 	int	y;
-}	t_draw_end;
+}				t_draw_end;
 
-typedef struct s_pars
+typedef struct	s_pars
 {
 	char	*temp;
 	int		twidth;
@@ -161,15 +160,15 @@ typedef struct s_pars
 	int		x;
 	int		y;
 	int		perm;
-	char			*width_str;
-	char			*height_str;
-	int				ground_r;
-	int				ground_g;
-	int				ground_b;
-	int				sky_r;
-	int				sky_g;
-	int				sky_b;
-	char			*temp_two;
+	char	*width_str;
+	char	*height_str;
+	int		ground_r;
+	int		ground_g;
+	int		ground_b;
+	int		sky_r;
+	int		sky_g;
+	int		sky_b;
+	char	*temp_two;
 }				t_pars;
 
 typedef struct	s_bitmap_file_header
@@ -198,65 +197,63 @@ typedef struct	s_bitmap_image_header
 
 typedef struct	s_sprt
 {
-	int j;
-	double swapx;
-	double swapy;
-	double dist;
+	int		j;
+	double	swapx;
+	double	swapy;
+	double	dist;
 }				t_sprt;
 
 typedef	struct	s_map
 {
-	void *mlx_ptr;
-	void *win_ptr;
-	void *img_ptr;
-	t_player player;
-	t_img img;
-	t_sprt sprt;
-	char 	*text_north;
-	char	*text_east;
-	char	*text_south;
-	char	*text_west;
-	double	hit_wall_x;
-	double	hit_wall_y;
-	double textx;
-	double texty;
-	char	wall_dir;
-	int wall_text;
-	int		nb_sprites;
-	t_texture texture[4];
-	t_vector sprite;
-	t_sprites sprites[50];
-	t_vector transform;
-	double	inv_det;
-	int		sprite_screen_x;
-	int		sprite_height;
-	int		sprite_width;
-	int		stripe;
-	int		tex_x;
-	int		tex_y;
-	t_draw_start draw_start;
-	t_draw_end draw_end;
-	t_text_spr text_spr;
-	double		*zbuffer;
-	t_mouvperm mouvperm;
-	t_pars		pars;
-	int			**worldmap;
-	int			scwidth;
-	int			scheight;
+	void			*mlx_ptr;
+	void			*win_ptr;
+	void			*img_ptr;
+	t_player		player;
+	t_img			img;
+	t_sprt			sprt;
+	char			*text_north;
+	char			*text_east;
+	char			*text_south;
+	char			*text_west;
+	double			hit_wall_x;
+	double			hit_wall_y;
+	double			textx;
+	double			texty;
+	char			wall_dir;
+	int				wall_text;
+	int				nb_sprites;
+	t_texture		texture[4];
+	t_vector		sprite;
+	t_sprites		sprites[50];
+	t_vector		transform;
+	double			inv_det;
+	int				sprite_screen_x;
+	int				sprite_height;
+	int				sprite_width;
+	int				stripe;
+	int				tex_x;
+	int				tex_y;
+	t_draw_start	draw_start;
+	t_draw_end		draw_end;
+	t_text_spr		text_spr;
+	double			*zbuffer;
+	t_mouvperm		mouvperm;
+	t_pars			pars;
+	int				**worldmap;
+	int				scwidth;
+	int				scheight;
 	int				error;
 	int				error_parsing;
 	char			*cub;
-
 	t_vector_int	map_pars;
 	char			**map_temp;
-	int		a;
-	int		b;
-
+	int				a;
+	int				b;
 }				t_map;
 
 int				ft_parsing_map(t_map *map);
-void	ft_raycasting_sprite(t_map *map);
-double raycasting(t_player player, int x, t_map *map);
+void			ft_raycasting_sprite(t_map *map);
+double			raycasting(t_player player, int x, t_map *map);
 int				ft_ground_sky(char *str, int i, t_map *map);
 int				ft_find(const char c, const char *str);
 int				ft_puterror(t_map *map, char *str);
@@ -275,11 +272,31 @@ int				ft_check_map_char(char *str);
 int				ft_parsing_ground_sky(char *s, t_map *map);
 int				ft_resolution_two(char *str, t_map *map, int i, int j);
 int				ft_parsing_start(char *s, t_map *map);
-void                    ft_recover_sprite_two(t_map *map, int x, int y, int i);
+void			ft_recover_sprite_two(t_map *map, int x, int y, int i);
 int				ft_check_wall(int x, int y, t_map *map);
-int		ft_check_cub(char	*str);
-int		ft_check_save(char	*str);
-void	save_bitmap(const char *filename, t_map *map);
+int				ft_check_cub(char	*str);
+int				ft_check_save(char	*str);
+void			save_bitmap(const char *filename, t_map *map);
+int				ft_ifargerror(int argc, char **argv, t_map map);
+t_map			ft_ifarg(int argc, char **argv, t_map map);
+t_map			ft_mapcreate(t_map map);
+t_map			ft_texture(t_map map);
+t_mouvperm		ft_colision(t_map map);
+void			*ft_memcpy(void *dst, const void *src, size_t n);
+int				ft_close(t_map *map);
+int				ft_walkforward(t_map *map);
+int				ft_walkbackward(t_map *map);
+int				ft_walkleft(t_map *map);
+int				ft_walkright(t_map *map);
+int				ft_turnright(t_map *map);
+int				ft_turnleft(t_map *map);
+t_map			ft_if_verline(t_map map);
+void			ft_vertline(int h, int x, t_map map);
+int				ft_printwall(t_map map);
+int				ft_i_walk(t_map *map);
+void			ft_ifray(t_player *player, t_calray *calray);
+char			ft_wall_dir(t_calray calray);
+void			ft_draw_sprite(t_map *map);
 
 # define KEY_ESCAPE         53
 # define KEY_F1             122

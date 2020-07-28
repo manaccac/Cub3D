@@ -10,7 +10,14 @@ SRCS_NAME	=		ft_sprite_raycasting.c raycasting.c main.c \
 					ft_parsing.c ft_parsing_two.c ft_parsing_three.c \
 					ft_puterror.c ft_check_parsing.c ft_putstr.c \
 					ft_parsing_for.c ft_putchar.c ft_check_cub.c\
-					ft_check_save.c ft_bitmap.c\
+					ft_check_save.c ft_bitmap.c ft_ifargerror.c\
+					ft_ifarg.c ft_mapcreate.c ft_texture.c\
+					ft_colision.c ft_memcpy.c ft_close.c\
+					ft_walkforward.c ft_walkleft.c ft_walkright.c\
+					ft_turnright.c ft_turnleft.c ft_if_verline.c\
+					ft_printwall.c ft_i_walk.c ft_vertline.c\
+					ft_walkbackward.c ft_ifray.c ft_wall_dir.c\
+					ft_draw_sprite.c\
 
 OBJS		= 					${SRCS:.c=.o}
 NAME		= 					Cub3D
